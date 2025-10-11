@@ -237,3 +237,22 @@ void powerset_tester(void)
 			std::cout << "}" << std::endl;
 		}
 }
+
+void conjunction_formal_norm_tester(void)
+{
+	readySetBool	obj;
+	std::string		formula;
+	std::string		result;
+
+	// formula = "ABC!&^";
+	// obj.print_truth_table(formula);
+	// result = obj.conjunctive_normal_form(formula);
+	// std::cout << result << std::endl;
+	// obj.print_truth_table(result);
+
+	formula = "A!B&CA!&AB|=^!";
+	obj.print_truth_table(formula);
+	result = obj.conjunctive_normal_form(formula);
+	std::cout << result << std::endl;
+	obj.print_truth_table(result);
+}

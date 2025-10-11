@@ -14,6 +14,7 @@
 	void eval_formula_tester(void);
 	void print_truth_table_tester(void);
 	void negation_formal_norm_tester(void);
+	void conjunction_formal_norm_tester(void);
 	void sat_tester(void);
 	void powerset_tester(void);
 

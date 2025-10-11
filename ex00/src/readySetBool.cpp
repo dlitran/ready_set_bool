@@ -411,6 +411,66 @@ std::string readySetBool::negation_formal_norm(std::string formula)
 	return (formulaStack.top());
 }
 
+std::string readySetBool::conjunctive_normal_form(std::string formula)
+{
+	readySetBool		obj;
+	int					i;
+	int					j;
+	int					conjunction_count;
+	int					numProposition;
+	std::vector<char>	setPropositions;
+	std::string			tmpFormula;
+	std::string			cnf;
+
+	i = 0;
+	conjunction_count = 0;
+	numProposition = 0;
+	for (std::string::iterator it = formula.begin(); it != formula.end(); it++)
+	{
+		if (isupper(*it) && std::find(setPropositions.begin(), setPropositions.end(), *it) == setPropositions.end())
+		{
+			setPropositions.push_back(*it);
+			numProposition++;
+		}
+	}
+	i = 0;
+	cnf = "";
+	while (i < (1 << numProposition))
+	{
+		tmpFormula = formula;
+		for (std::string::iterator it = tmpFormula.begin(); it != tmpFormula.end(); it++)
+		{
+			if (std::find(setPropositions.begin(), setPropositions.end(), *it) != setPropositions.end())
+			{
+				j = (numProposition - 1)- (std::find(setPropositions.begin(), setPropositions.end(), *it)- setPropositions.begin());
+				if (i & (1 << j))
+					*it = '1';
+				else
+					*it = '0';
+			}
+		}
+		if (obj.eval_formula(tmpFormula) == false)
+		{
+			conjunction_count++;
+			for (int it = 0 ; it < numProposition; it++)
+			{
+					j = (numProposition - 1)- it;
+					if (i & (1 << j))
+						cnf = cnf + setPropositions[it] +  "!"; //when it's true, false (morgan's law)
+					else
+						cnf = cnf + setPropositions[it];
+			}
+			for (int iterator = 0; iterator < (numProposition - 1); iterator++)
+				cnf = cnf + "|";
+		}
+		i++;
+	}
+	for (int iterator = 0; iterator < (conjunction_count - 1); iterator++)
+		cnf = cnf + "&";
+	//TODO Further optimization can be done here.
+	return(cnf);
+}
+
 bool readySetBool::sat(std::string formula)
 {
 	int	numProposition;

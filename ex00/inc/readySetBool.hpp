@@ -11,6 +11,8 @@
 
 # define BIT_SIZE 32
 
+//TODO change strings for string references.
+
 	class readySetBool
 	{
 		public:
@@ -27,6 +29,7 @@
 
 			std::string negation_formal_norm(std::string formula);
 			std::string de_morgan_laws(char op, int position, std::string formula);
+			std::string conjunctive_normal_form(std::string formula);
 
 			bool sat(std::string formula);
 			std::vector<std::vector<int>> powerset(std::vector<int> set);
