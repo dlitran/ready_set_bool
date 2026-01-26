@@ -6,12 +6,11 @@ void adder_tester(void)
 	unsigned int	a;
 	unsigned int	b;
 	int				i;
-	readySetBool	algebra;
 
 	//test normal value
 	a = 100009;
 	b = 60;
-	num = algebra.adder(a, b);
+	num = readySetBool::adder(a, b);
 	std::cout << num << std::endl;
 	i = 31;
 	while (i >= 0)
@@ -29,7 +28,7 @@ void adder_tester(void)
 	//test out of limit values
 	a = UINT_MAX;
 	b = UINT_MAX;
-	num = algebra.adder(a, b);
+	num = readySetBool::adder(a, b);
 	std::cout << num << std::endl;
 	i = 31;
 	while (i >= 0)
@@ -51,7 +50,7 @@ void adder_tester(void)
 		a = rand();
 		b = rand();
 		//std::cout << "a: " << a << " b: " << b << std::endl;
-		if (algebra.adder(a, b) != (a + b))
+		if (readySetBool::adder(a, b) != (a + b))
 		{
 			std::cout << "something failed" << std::endl;
 		}
@@ -62,7 +61,7 @@ void adder_tester(void)
 	// {
 	// 	for (unsigned int it2 = 99999999; it2 <= UINT_MAX; it2++)
 	// 	{
-	// 		num = algebra.adder(it, it2);
+	// 		num = readySetBool::adder(it, it2);
 	// 		if (num != (it + it2))
 	// 		{
 	// 			std::cout << "Different values" << std::endl;
@@ -75,11 +74,10 @@ void adder_tester(void)
 
 void multiplier_tester(void)
 {
-	readySetBool	algebra;
 	unsigned int	num;
 	int				i;
 
-	num = algebra.multiplier(105, 6);
+	num = readySetBool::multiplier(105, 6);
 	std::cout << num << std::endl;
 	i = 31;
 	while (i >= 0)
@@ -95,7 +93,6 @@ void multiplier_tester(void)
 
 void gray_code_tester(void)
 {
-	readySetBool	algebra;
 	unsigned int	gray;
 	unsigned int	num;
 	int	i;
@@ -113,7 +110,7 @@ void gray_code_tester(void)
 		i--;
 	}
 	std::cout << std::endl;
-	gray = algebra.gray_code(num);
+	gray = readySetBool::gray_code(num);
 	i = 31;
 	while (i >= 0)
 	{
@@ -140,7 +137,7 @@ void gray_code_tester(void)
 			i--;
 		}
 		std::cout << std::endl;
-		gray = algebra.gray_code(num);
+		gray = readySetBool::gray_code(num);
 		std::cout << "Number after transformation: " << gray << std::endl;
 		i = 31;
 		while (i >= 0)
@@ -158,20 +155,19 @@ void gray_code_tester(void)
 
 void eval_formula_tester(void)
 {
-	readySetBool eval;
 	bool statement;
 
-	// statement = eval.eval_formula("0!1^");
+	// statement = readySetBool::eval_formula("0!1^");
 	// if (statement == true)
 	// 	std::cout << "the statement is true" << std::endl;
 	// else
 	// 	std::cout << "the statement is false" << std::endl;
-	// statement = eval.eval_formula("01>");
+	// statement = readySetBool::eval_formula("01>");
 	// if (statement == true)
 	// 	std::cout << "the statement is true" << std::endl;
 	// else
 	// 	std::cout << "the statement is false" << std::endl;
-	statement = eval.eval_formula("001||1>");
+	statement = readySetBool::eval_formula("001||1>");
 	if (statement == true)
 		std::cout << "the statement is true" << std::endl;
 	else
@@ -181,42 +177,38 @@ void eval_formula_tester(void)
 
 void print_truth_table_tester(void)
 {
-	readySetBool obj;
-
-	obj.print_truth_table("ABC&|DE!|F=!=!!");
+	readySetBool::print_truth_table("ABC&|DE!|F=!=!!");
 }
 
 void negation_formal_norm_tester(void)
 {
-	readySetBool obj;
 	std::string	formula;
 	std::string	norm;
 
 	formula = "ABC&|DE!|F=!=!";
 	std::cout << "before: " << formula << std::endl;
-	norm = obj.negation_formal_norm(formula);
+	norm = readySetBool::negation_formal_norm(formula);
 	std::cout << "after: " << norm << std::endl;
 }
 
 void sat_tester(void)
 {
-	readySetBool obj;
 	std::string formula;
 
 	formula = "AA!&";
-	if (obj.sat(formula) == true)
+	if (readySetBool::sat(formula) == true)
 		std::cout << "satisfiable" << std::endl;
 	else
 		std::cout << "not satisfiable" << std::endl;
 
 	formula = "ABC||A!B!C!&&&";
-	if (obj.sat(formula) == true)
+	if (readySetBool::sat(formula) == true)
 		std::cout << "satisfiable" << std::endl;
 	else
 		std::cout << "not satisfiable" << std::endl;
 
 	formula = "ABC&|DE!|F=!=!!";
-	if (obj.sat(formula) == true)
+	if (readySetBool::sat(formula) == true)
 		std::cout << "satisfiable" << std::endl;
 	else
 		std::cout << "not satisfiable" << std::endl;
@@ -224,9 +216,8 @@ void sat_tester(void)
 
 void powerset_tester(void)
 {
-	readySetBool obj;
 	std::vector<int> set = {1, 2, 3, 4, 5, 6};
-		std::vector<std::vector<int>> powerSet = obj.powerset(set);
+		std::vector<std::vector<int>> powerSet = readySetBool::powerset(set);
 		for (std::vector<std::vector<int>>::iterator it1 = powerSet.begin(); it1 != powerSet.end(); it1++)
 		{
 			std::cout << "{ ";
@@ -240,19 +231,31 @@ void powerset_tester(void)
 
 void conjunction_formal_norm_tester(void)
 {
-	readySetBool	obj;
 	std::string		formula;
 	std::string		result;
 
 	// formula = "ABC!&^";
-	// obj.print_truth_table(formula);
-	// result = obj.conjunctive_normal_form(formula);
+	// readySetBool::print_truth_table(formula);
+	// result = readySetBool::conjunctive_normal_form(formula);
 	// std::cout << result << std::endl;
-	// obj.print_truth_table(result);
+	// readySetBool::print_truth_table(result);
 
 	formula = "A!B&CA!&AB|=^!";
-	obj.print_truth_table(formula);
-	result = obj.conjunctive_normal_form(formula);
+	readySetBool::print_truth_table(formula);
+	result = readySetBool::conjunctive_normal_form(formula);
 	std::cout << result << std::endl;
-	obj.print_truth_table(result);
+	readySetBool::print_truth_table(result);
+}
+
+void	eval_set_tester(void)
+{
+	std::string formula;
+	formula = "AB&";
+	std::vector<int> result;
+	std::vector<std::vector<int>> sets;
+	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
+	result = readySetBool::eval_set(formula, sets);
+	for(std::vector<int>::iterator it = result.begin(); it < result.end(); it++)
+		std::cout << *it << " ";
+	std::cout << std::endl;
 }

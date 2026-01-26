@@ -8,22 +8,21 @@
 # include <string>
 # include <iostream>
 # include <stdexcept>
+# include <cstdint>
+# include <limits>
+# include <climits>
+# include <utility>
 
 # define BIT_SIZE 32
 
 //TODO change strings for string references.
 
-	class readySetBool
+	namespace readySetBool
 	{
-		public:
-			readySetBool();
-			~readySetBool();
-			readySetBool(const readySetBool &src);
-			readySetBool &operator=(const readySetBool &rhs);
-
 			unsigned int adder(unsigned int a, unsigned int b);
 			unsigned int multiplier(unsigned int a, unsigned int b);
 			unsigned int gray_code(unsigned int n);
+
 			bool eval_formula(std::string formula);
 			void print_truth_table(std::string formula);
 
@@ -32,7 +31,13 @@
 			std::string conjunctive_normal_form(std::string formula);
 
 			bool sat(std::string formula);
+
 			std::vector<std::vector<int>> powerset(std::vector<int> set);
+			std::vector<int> eval_set(std::string &formula, std::vector<std::vector<int>> sets);
+
+			//bonus
+			double map(uint16_t x, uint16_t y);
+			std::pair<uint16_t, uint16_t> reverse_map(double z);
 
 			class InvalidInputException: public std::exception
 			{
