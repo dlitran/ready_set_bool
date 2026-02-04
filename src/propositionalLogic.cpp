@@ -1,95 +1,8 @@
 #include "../inc/readySetBool.hpp"
 
-bool readySetBool::eval_formula(std::string formula) //Add possibility of multiple equal letters.
-{
-	std::stack<bool> formulaStack;
-	bool	tmp1;
-	bool	tmp2;
-
-	for (int it = 0; it < (int)formula.length(); it++)
-	{
-		if (formula[it] != '1' && formula[it] != '0')
-		{
-			if (formula[it] == '!')
-			{
-				if (formulaStack.size() < 1)
-					throw readySetBool::InvalidInputException();
-				tmp1 = formulaStack.top();
-				formulaStack.pop();
-				formulaStack.push(!tmp1);
-			}
-			else
-			{
-				if (formulaStack.size() < 2)
-					throw readySetBool::InvalidInputException();
-				if (formula[it] == '&')
-				{
-					tmp1 = formulaStack.top();
-					formulaStack.pop();
-					tmp2 = formulaStack.top();
-					formulaStack.pop();
-					//std::cout << "check" << "tmp1: " << tmp1 << "tmp2: " << tmp2 << std::endl;
-					formulaStack.push(tmp1 && tmp2);
-				}
-				else if (formula[it] == '|')
-				{
-					tmp1 = formulaStack.top();
-					formulaStack.pop();
-					tmp2 = formulaStack.top();
-					formulaStack.pop();
-					formulaStack.push(tmp1 || tmp2);
-				}
-				else if (formula[it] == '^')
-				{
-					tmp1 = formulaStack.top();
-					formulaStack.pop();
-					tmp2 = formulaStack.top();
-					formulaStack.pop();
-					formulaStack.push(tmp1 ^ tmp2);
-				}
-				else if (formula[it] == '>')
-				{
-					tmp1 = formulaStack.top();
-					formulaStack.pop();
-					tmp2 = formulaStack.top();
-					formulaStack.pop();
-					if (tmp2 == true && tmp1 == false)
-						formulaStack.push(false);
-					else
-						formulaStack.push(true);
-				}
-				else if (formula[it] == '=')
-				{
-					tmp1 = formulaStack.top();
-					formulaStack.pop();
-					tmp2 = formulaStack.top();
-					formulaStack.pop();
-					formulaStack.push(!(tmp1 ^ tmp2));
-				}
-				else
-					throw readySetBool::InvalidInputException();
-			}
-			// else
-			// 	throw
-
-		}
-		if (formula[it] == '1')
-			formulaStack.push(true);
-		if (formula[it] == '0')
-			formulaStack.push(false);
-	}
-	if (formulaStack.size() != 1)
-		throw readySetBool::InvalidInputException();
-	return (formulaStack.top());
-}
-
-void readySetBool::print_truth_table(std::string formula)
+int	countPropositions(std::string formula, std::vector<char> &setPropositions)
 {
 	int	numProposition;
-	int	i;
-	int	j;
-	std::string	tmpFormula;
-	std::vector<char> setPropositions;
 
 	numProposition = 0;
 	for (std::string::iterator it = formula.begin(); it != formula.end(); it++)
@@ -100,55 +13,63 @@ void readySetBool::print_truth_table(std::string formula)
 			numProposition++; //set a limit.
 		}
 	}
-	//std::cout << "number of propositions: " << numProposition << std::endl;
-	i = 0;
-	std::cout << "| ";
-	for (std::vector<char>::iterator it = setPropositions.begin(); it != setPropositions.end(); it++)
-		std::cout << *it << " | ";
-	std::cout << "= |" << std::endl;
-	j = 0;
-	while (j < (numProposition + 1))
-	{
-		std::cout << "|---";
-		j++;
-	}
-	std::cout << "|" << std::endl;
-	while (i < (1 << numProposition)) //The power of two of numProposition
-	{
-		j = numProposition -1;
-		std::cout << "|";
-		while (j >= 0)
-		{
-			if (i & (1 << j))
-				std::cout << " 1";
-			else
-				std::cout << " 0";
-			std::cout << " |";
-			j--;
-		}
-		//j = numProposition -1;
-		tmpFormula = formula;
-		for (std::string::iterator it = tmpFormula.begin(); it != tmpFormula.end(); it++)
-		{
-			if (std::find(setPropositions.begin(), setPropositions.end(), *it) != setPropositions.end())
-			{
-				j = (numProposition - 1) - (std::find(setPropositions.begin(), setPropositions.end(), *it) - setPropositions.begin());
-				if (i & (1 << j))
-					*it = '1';
-				else
-					*it = '0';
-				//j--;
-			}
-		}
-		//std::cout << std::endl;
-		//std::cout << std::endl << formula << std::endl;
-		//std::cout << std::endl << tmpFormula << std::endl;
-		std::cout << " " << readySetBool::eval_formula(tmpFormula) << " |" << std::endl;
-		i++;
-	}
+	return( numProposition);
 }
 
-std::string readySetBool::de_morgan_laws(char op, int position, std::string formula)
+std::string	logicAND(std::string	bit1, std::string	bit2)
+{
+	return(bit2 + bit1 + "&");
+}
+
+std::string	logicOR(std::string	bit1, std::string	bit2)
+{
+	return(bit2 + bit1 + "|");
+}
+
+std::string	logicXOR(std::string	bit1, std::string	bit2)
+{
+	return(readySetBool::negation_formal_norm(bit1 + bit2 + "!&" + bit1 + "!" + bit2 + "&|")); //TODO Lo mismo que el conditional
+}
+
+std::string	logicConditional(std::string	bit1, std::string	bit2)
+{
+	return(readySetBool::negation_formal_norm(bit2 + "!" + bit1 + "|")); //TODO No sé por que lo vuelvo a mandar a negation_formal_norm
+}
+
+std::string	logicBiconditional(std::string	bit1, std::string	bit2)
+{
+	return(readySetBool::negation_formal_norm(bit2 + bit1 + ">" + bit1 + bit2 + ">" + "&"));
+}
+
+std::map<std::string, std::string(*)(std::string, std::string)>	initializeNegationFormalNormMap(void)
+{
+	std::map<std::string, std::string(*)(std::string, std::string)> negationFormalNormMap;
+
+	negationFormalNormMap["&"] = &logicAND;
+	negationFormalNormMap["|"] = &logicOR;
+	negationFormalNormMap["^"] = &logicXOR;
+	negationFormalNormMap[">"] = &logicConditional;
+	negationFormalNormMap["="] = &logicBiconditional;
+	return (negationFormalNormMap);
+}
+
+void	binary_proposition_operation(std::stack<std::string>	&formulaStack, std::map<std::string, std::string(*)(std::string, std::string)> &negationFormalNormMap, char	operation)
+{
+	std::string	bit1;
+	std::string	bit2;
+
+	if (formulaStack.size() < 2)
+		throw readySetBool::InvalidInputException();
+	bit1 = formulaStack.top();
+	formulaStack.pop();
+	bit2 = formulaStack.top();
+	formulaStack.pop();
+	formulaStack.push(negationFormalNormMap.at(std::string(1, operation))(bit1, bit2));
+	return ;
+
+}
+
+std::string readySetBool::de_morgan_laws(char op, int position, std::string formula, std::map<std::string, std::string(*)(std::string, std::string)> &negationFormalNormMap)
 {
 	std::stack<std::string> formulaStack;
 	std::string	tmp1;
@@ -158,49 +79,13 @@ std::string readySetBool::de_morgan_laws(char op, int position, std::string form
 		if (isupper(formula[i]))
 		{
 			formulaStack.push(std::string(&formula[i], 1));
-			//std::cout << "upper" << std::endl;
 		}
-		else if (formula[i] == '|')
+		else if (formula[i] != '!')
 		{
-			tmp1 = formulaStack.top();
-			formulaStack.pop();
-			tmp2 = formulaStack.top();
-			formulaStack.pop();
-			formulaStack.push(tmp2 + tmp1 + "|");
-			//std::cout << "or" << std::endl;
-		}
-		else if (formula[i] == '&')
-		{
-			tmp1 = formulaStack.top();
-			formulaStack.pop();
-			tmp2 = formulaStack.top();
-			formulaStack.pop();
-			formulaStack.push(tmp2 + tmp1 + "&");
-			//std::cout << "and" << std::endl;
-		}
-		else if (formula[i] == '=')
-		{
-			//std::cout << "=" << std::endl;
-			tmp1 = formulaStack.top();
-			formulaStack.pop();
-			tmp2 = formulaStack.top();
-			formulaStack.pop();
-			formulaStack.push(negation_formal_norm(tmp2 + tmp1 + ">" + tmp1 + tmp2 + ">" + "&"));
-			//std::cout << "=" << std::endl;
-		}
-		else if (formula[i] == '>')
-		{
-			//std::cout << ">" << std::endl;
-			tmp1 = formulaStack.top();
-			formulaStack.pop();
-			tmp2 = formulaStack.top();
-			formulaStack.pop();
-			formulaStack.push(negation_formal_norm(tmp2 + "!" + tmp1 + "|"));
-			//std::cout << ">" << std::endl;
+			binary_proposition_operation(formulaStack, negationFormalNormMap, formula[i]);
 		}
 		else if (formula[i] == '!')
 		{
-			//std::cout << "!" << std::endl;
 			tmp1 = formulaStack.top();
 			formulaStack.pop();
 			if (tmp1[tmp1.size() - 1] == '!') //Double negation
@@ -208,7 +93,6 @@ std::string readySetBool::de_morgan_laws(char op, int position, std::string form
 			else //Add negation
 				tmp1 += '!';
 			formulaStack.push(negation_formal_norm(tmp1));
-			//std::cout << "!" << std::endl;
 		}
 	}
 	tmp1 = formulaStack.top();
@@ -226,58 +110,22 @@ std::string readySetBool::negation_formal_norm(std::string formula)
 	std::stack<std::string> formulaStack;
 	std::string	tmp1;
 	std::string	tmp2;
+	static std::map<std::string, std::string(*)(std::string, std::string)> negationFormalNormMap = initializeNegationFormalNormMap();
 
 	if (formula.size() <= 2)
 		return (formula);
 	for (int i = 0; i < (int)formula.size(); i++)
 	{
-
 		if (isupper(formula[i]))
 		{
 			formulaStack.push(std::string(&formula[i], 1));
-			//std::cout << "upper" << std::endl;
 		}
-		else if (formula[i] == '|')
+		else if (formula[i] != '!')
 		{
-			tmp1 = formulaStack.top();
-			formulaStack.pop();
-			tmp2 = formulaStack.top();
-			formulaStack.pop();
-			formulaStack.push(tmp2 + tmp1 + "|");
-			//std::cout << "or" << std::endl;
-		}
-		else if (formula[i] == '&')
-		{
-			tmp1 = formulaStack.top();
-			formulaStack.pop();
-			tmp2 = formulaStack.top();
-			formulaStack.pop();
-			formulaStack.push(tmp2 + tmp1 + "&");
-			//std::cout << "and" << std::endl;
-		}
-		else if (formula[i] == '=')
-		{
-			//std::cout << "=" << std::endl;
-			tmp1 = formulaStack.top();
-			formulaStack.pop();
-			tmp2 = formulaStack.top();
-			formulaStack.pop();
-			formulaStack.push(negation_formal_norm(tmp2 + tmp1 + ">" + tmp1 + tmp2 + ">" + "&"));
-			//std::cout << "=" << std::endl;
-		}
-		else if (formula[i] == '>')
-		{
-			//std::cout << ">" << std::endl;
-			tmp1 = formulaStack.top();
-			formulaStack.pop();
-			tmp2 = formulaStack.top();
-			formulaStack.pop();
-			formulaStack.push(negation_formal_norm(tmp2 + "!" + tmp1 + "|")); // a -> b <-> !b | A is a tautology
-			//std::cout << ">" << std::endl;
+			binary_proposition_operation(formulaStack, negationFormalNormMap, formula[i]);
 		}
 		else if (formula[i] == '!')
 		{
-			//std::cout << "!" << std::endl;
 			tmp1 = formulaStack.top();
 			formulaStack.pop();
 			if (tmp1[tmp1.size() - 1] == '!') //Double negation
@@ -285,13 +133,15 @@ std::string readySetBool::negation_formal_norm(std::string formula)
 			else //Add negation
 				tmp1 += '!';
 			//De Morgan laws
-			if (tmp1[tmp1.size() - 2] == '|')
-				tmp1 = de_morgan_laws('|', (int)(tmp1.size() - 2), tmp1);
-			else if (tmp1[tmp1.size() - 2] == '&')
-				tmp1 = de_morgan_laws('&', (int)(tmp1.size() - 2), tmp1);
-
+			if (tmp1.size() > 2 && tmp1[tmp1.size() - 2] == '|')
+			{
+				tmp1 = de_morgan_laws('|', (int)(tmp1.size() - 2), tmp1, negationFormalNormMap);
+			}
+			else if (tmp1.size() > 2 && tmp1[tmp1.size() - 2] == '&')
+			{
+				tmp1 = de_morgan_laws('&', (int)(tmp1.size() - 2), tmp1, negationFormalNormMap);
+			}
 			formulaStack.push(negation_formal_norm(tmp1));
-			//std::cout << "!" << std::endl;
 		}
 	}
 	return (formulaStack.top());
@@ -309,15 +159,7 @@ std::string readySetBool::conjunctive_normal_form(std::string formula)
 
 	i = 0;
 	conjunction_count = 0;
-	numProposition = 0;
-	for (std::string::iterator it = formula.begin(); it != formula.end(); it++)
-	{
-		if (isupper(*it) && std::find(setPropositions.begin(), setPropositions.end(), *it) == setPropositions.end())
-		{
-			setPropositions.push_back(*it);
-			numProposition++;
-		}
-	}
+	numProposition = countPropositions(formula, setPropositions);
 	i = 0;
 	cnf = "";
 	while (i < (1 << numProposition))
@@ -359,46 +201,16 @@ std::string readySetBool::conjunctive_normal_form(std::string formula)
 bool readySetBool::sat(std::string formula)
 {
 	int	numProposition;
-	int	i;
-	int	j;
-	std::vector<char> setPropositions;
-	std::string tmpFormula;
+	int	permutation;
+	int indexArray[128] = {};
 
-	numProposition = 0;
-	for (std::string::iterator it = formula.begin(); it != formula.end(); it++)
+	numProposition = countPropositions2(formula, indexArray);
+	permutation = 0;
+	while (permutation < (1 << numProposition))
 	{
-		if (isupper(*it) && std::find(setPropositions.begin(), setPropositions.end(), *it) == setPropositions.end())
-		{
-			setPropositions.push_back(*it);
-			numProposition++;
-		}
-	}
-	i = 0;
-	j = 0;
-	while (i < (1 << numProposition))
-	{
-		tmpFormula = formula;
-		for (std::string::iterator it = tmpFormula.begin(); it != tmpFormula.end(); it++)
-		{
-			if (std::find(setPropositions.begin(), setPropositions.end(), *it) != setPropositions.end())
-			{
-				j = (numProposition - 1)- (std::find(setPropositions.begin(), setPropositions.end(), *it)- setPropositions.begin());
-				if (i & (1 << j))
-					*it = '1';
-				else
-					*it = '0';
-				//j--;
-			}
-		}
-		//std::cout << std::endl;
-		//std::cout << std::endl << formula << std::endl;
-		//std::cout << std::endl << tmpFormula << std::endl;
-		if (readySetBool::eval_formula(tmpFormula) == true)
-		{
-			std::cout << tmpFormula << std::endl;
+		if (readySetBool::optimized_eval_formula(formula, numProposition,  indexArray, permutation) == true)
 			return (true);
-		}
-		i++;
+		permutation++;
 	}
 	return (false);
 }

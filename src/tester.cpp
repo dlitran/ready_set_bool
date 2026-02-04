@@ -153,42 +153,81 @@ void gray_code_tester(void)
 
 }
 
-void eval_formula_tester(void)
+void	testFormula(std::string &formula)
 {
 	bool statement;
 
-	// statement = readySetBool::eval_formula("0!1^");
-	// if (statement == true)
-	// 	std::cout << "the statement is true" << std::endl;
-	// else
-	// 	std::cout << "the statement is false" << std::endl;
-	// statement = readySetBool::eval_formula("01>");
-	// if (statement == true)
-	// 	std::cout << "the statement is true" << std::endl;
-	// else
-	// 	std::cout << "the statement is false" << std::endl;
-	statement = readySetBool::eval_formula("001||1>");
+	std:: cout << "\033[34m" << formula << "\033[0m";
+	statement = readySetBool::eval_formula(formula);
 	if (statement == true)
-		std::cout << "the statement is true" << std::endl;
+		std::cout << ": \033[32mtrue\033[0m" << std::endl;
 	else
-		std::cout << "the statement is false" << std::endl;
+		std::cout << ": \033[31mfalse\033[0m" << std::endl;
+}
 
+void eval_formula_tester(void)
+{
+	std::string	formula;
+
+	formula = "0!1^";
+	testFormula(formula);
+	formula = "01>";
+	testFormula(formula);
+	formula = "001||1>";
+	testFormula(formula);
+	formula = "001||1>!";
+	testFormula(formula);
 }
 
 void print_truth_table_tester(void)
 {
-	readySetBool::print_truth_table("ABC&|DE!|F=!=!!");
+	//readySetBool::print_truth_table("AB>");
+	readySetBool::print_truth_table("AZB&&");
+	// readySetBool::print_truth_table("AB=");
+	// readySetBool::print_truth_table("AB&");
+	// readySetBool::print_truth_table("AB&C|");
+	// readySetBool::print_truth_table("ABC&|DE!|F=!=!!");
+}
+
+std::vector<bool>	testNegationNormalForm(std::string formula)
+{
+	int	numProposition;
+	int	permutation;
+    int indexArray[128] = {};
+	std::vector<bool> result;
+
+	numProposition = readySetBool::countPropositions2(formula, indexArray);
+	permutation = 0;
+	while (permutation < (1 << numProposition))
+	{
+		result.insert(result.end(), readySetBool::optimized_eval_formula(formula, numProposition,  indexArray, permutation));
+		permutation++;
+	}
+	return (result);
 }
 
 void negation_formal_norm_tester(void)
 {
 	std::string	formula;
 	std::string	norm;
+	std::vector<bool> vectorFormula;
+	std::vector<bool> vectorNorm;
 
-	formula = "ABC&|DE!|F=!=!";
+	formula = "ABC!&!!|DE!|F=!=!A!&";
+	//formula = "AB=!";
 	std::cout << "before: " << formula << std::endl;
+	vectorFormula = testNegationNormalForm(formula);
 	norm = readySetBool::negation_formal_norm(formula);
+	vectorNorm = testNegationNormalForm(norm);
 	std::cout << "after: " << norm << std::endl;
+	if (vectorFormula ==  vectorNorm)
+		std::cout << "Son iguales" << std::endl;
+	for (std::vector<bool>::iterator it = vectorNorm.begin(); it != vectorNorm.end(); it++)
+		std::cout << *it << ", ";
+	std::cout << std::endl;
+	for (std::vector<bool>::iterator it = vectorFormula.begin(); it != vectorFormula.end(); it++)
+		std::cout << *it << ", ";
+	std::cout << std::endl;
 }
 
 void sat_tester(void)

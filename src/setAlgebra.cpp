@@ -24,7 +24,6 @@ std::vector<std::vector<int>> readySetBool::powerset(std::vector<int> set)
 		i++;
 	}
 	return(powerSet);
-
 }
 
 std::vector<int> readySetBool::eval_set(std::string &formula, std::vector<std::vector<int>> sets)
