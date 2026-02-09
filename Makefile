@@ -3,6 +3,7 @@ SRC_DIR := src
 SRC_NAME := main.cpp readySetBool.cpp tester.cpp\
 			bitwiseArithmetic.cpp propositionalLogic.cpp\
 			setAlgebra.cpp spaceFillingCurve.cpp\
+			truthTable.cpp\
 			
 
 SRC := $(addprefix $(SRC_DIR)/,$(SRC_NAME))
