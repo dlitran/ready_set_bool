@@ -18,6 +18,7 @@
 	void	sat_tester(void);
 	void	powerset_tester(void);
 	void	eval_set_tester(void);
+	void	spaceFillingCurve_tester(void);
 
 
 #endif

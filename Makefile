@@ -39,7 +39,6 @@ clean:
 	$(RM) $(OBJS) $(DEPS)
 	@rmdir $(OBJ_DIR)
 
-
 fclean: clean
 	$(RM) $(NAME)
 

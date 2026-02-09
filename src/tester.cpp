@@ -1,18 +1,8 @@
 #include "../inc/tester.hpp"
 
-void adder_tester(void)
+void	print_binary(unsigned int num)
 {
-	unsigned int	num;
-	unsigned int	a;
-	unsigned int	b;
-	int				i;
-
-	//test normal value
-	a = 100009;
-	b = 60;
-	num = readySetBool::adder(a, b);
-	std::cout << num << std::endl;
-	i = 31;
+	int i = 31;
 	while (i >= 0)
 	{
 		if (num & 1 << i)
@@ -22,29 +12,40 @@ void adder_tester(void)
 		i--;
 	}
 	std::cout << std::endl;
-	if (num == (a + b))
-		std::cout << "everything fine" << std::endl;
+}
+
+void adder_tester(void)
+{
+	unsigned int	result;
+	unsigned int	a;
+	unsigned int	b;
+
+	std::cout << "\033[34mAdder tester:\033[0m" << std::endl;
+
+	//test normal value
+	a = 100329;
+	b = 60;
+	result = readySetBool::adder(a, b);
+	std::cout << a << " + " << b  << " = " << result << std::endl;
+	print_binary(result);
+	if (result == (a + b))
+		std::cout <<  "\033[32mCorrect\033[0m" << std::endl;
 
 	//test out of limit values
 	a = UINT_MAX;
 	b = UINT_MAX;
-	num = readySetBool::adder(a, b);
-	std::cout << num << std::endl;
-	i = 31;
-	while (i >= 0)
-	{
-		if (num & 1 << i)
-			std::cout << "1";
-		else
-			std::cout << "0";
-		i--;
-	}
-	std::cout << std::endl;
-	if (num == (a + b))
-		std::cout << "everything fine" << std::endl;
+	result = readySetBool::adder(a, b);
+	std::cout << a << " + " << b  << " = " << result << std::endl;
+	print_binary(result);
+	if (result == (a + b))
+		std::cout << "\033[32mCorrect\033[0m" << std::endl;
+	else
+		std::cout << "\033[31mIncorrect\033[0m" << std::endl;
 
+	//test a hundred random values
 	srand(static_cast<unsigned int>(time(NULL)));
-	std::cout << "RAND_MAX is: " << RAND_MAX << std::endl;
+	// std::cout << "RAND_MAX is: " << RAND_MAX << std::endl;
+	std::cout << "100 random values" << std::endl;
 	for (int it = 0; it < 100; it++)
 	{
 		a = rand();
@@ -52,105 +53,83 @@ void adder_tester(void)
 		//std::cout << "a: " << a << " b: " << b << std::endl;
 		if (readySetBool::adder(a, b) != (a + b))
 		{
-			std::cout << "something failed" << std::endl;
+			std::cout << "\033[31mIncorrect\033[0m" << std::endl;
+			return ;
 		}
 	}
-	std::cout << "everything fine" << std::endl;
-	//Test all possible values
-	// for (unsigned int it = 0; it <= UINT_MAX; it++)
-	// {
-	// 	for (unsigned int it2 = 99999999; it2 <= UINT_MAX; it2++)
-	// 	{
-	// 		num = readySetBool::adder(it, it2);
-	// 		if (num != (it + it2))
-	// 		{
-	// 			std::cout << "Different values" << std::endl;
-	// 			return;
-	// 		}
-	// 	}
-	// }
-	// std::cout << "Everything is fine" << std::endl;
+	std::cout << "\033[32mCorrect\033[0m" << std::endl;
 }
 
 void multiplier_tester(void)
 {
-	unsigned int	num;
-	int				i;
+	unsigned int	result;
+	unsigned int	a;
+	unsigned int	b;
 
-	num = readySetBool::multiplier(105, 6);
-	std::cout << num << std::endl;
-	i = 31;
-	while (i >= 0)
+	std::cout << "\033[34mMultipilier tester:\033[0m" << std::endl;
+
+	//test normal value
+	a = 105;
+	b = 6;
+	result = readySetBool::multiplier(a, b);
+	std::cout << a << " * " << b  << " = " << result << std::endl;
+	print_binary(result);
+	if (result == (a * b))
+		std::cout <<  "\033[32mCorrect\033[0m" << std::endl;
+
+	//test out of limit values
+	a = UINT_MAX;
+	b = UINT_MAX;
+	result = readySetBool::multiplier(a, b);
+	std::cout << a << " * " << b  << " = " << result << std::endl;
+	print_binary(result);
+	if (result == (a * b))
+		std::cout << "\033[32mCorrect\033[0m" << std::endl;
+	else
+		std::cout << "\033[31mIncorrect\033[0m" << std::endl;
+
+	//test a hundred random values
+	srand(static_cast<unsigned int>(time(NULL)));
+	// std::cout << "RAND_MAX is: " << RAND_MAX << std::endl;
+	std::cout << "100 random values" << std::endl;
+	for (int it = 0; it < 100; it++)
 	{
-		if (num & 1 << i)
-			std::cout << "1";
-		else
-			std::cout << "0";
-		i--;
+		a = rand();
+		b = rand();
+		// std::cout << "a: " << a << " b: " << b << std::endl;
+		if (readySetBool::multiplier(a, b) != (a * b))
+		{
+			std::cout << "\033[31mIncorrect\033[0m" << std::endl;
+			return ;
+		}
 	}
-	std::cout << std::endl;
+	std::cout << "\033[32mCorrect\033[0m" << std::endl;
 }
 
 void gray_code_tester(void)
 {
 	unsigned int	gray;
 	unsigned int	num;
-	int	i;
 
+	std::cout << "\033[34mGray code tester:\033[0m" << std::endl;
 	//Max unsigned interger
 	num = UINT_MAX;
 	std::cout << "Max unsigned int: " << num << std::endl;
-	i = 31;
-	while (i >= 0)
-	{
-		if (num & 1 << i)
-			std::cout << "1";
-		else
-			std::cout << "0";
-		i--;
-	}
-	std::cout << std::endl;
+	print_binary(num);
 	gray = readySetBool::gray_code(num);
-	i = 31;
-	while (i >= 0)
-	{
-		if (gray & 1 << i)
-			std::cout << "1";
-		else
-			std::cout << "0";
-		i--;
-	}
-	std::cout << std::endl;
+	print_binary(gray);
 
 	//From 0 to 20:
-	for (int it = 0; it <= 20 ; it++)
+	std::cout << "First 17 values" << std::endl;
+	for (int it = 0; it <= 16 ; it++)
 	{
 		num = it;
-		std::cout << "Number: " << num << std::endl;
-		i = 31;
-		while (i >= 0)
-		{
-			if (num & 1 << i)
-				std::cout << "1";
-			else
-				std::cout << "0";
-			i--;
-		}
-		std::cout << std::endl;
+		// std::cout << "Number: " << num << std::endl;
+		// print_binary(num);
 		gray = readySetBool::gray_code(num);
-		std::cout << "Number after transformation: " << gray << std::endl;
-		i = 31;
-		while (i >= 0)
-		{
-			if (gray & 1 << i)
-				std::cout << "1";
-			else
-				std::cout << "0";
-			i--;
-		}
-		std::cout << std::endl;
+		// std::cout << "Gray code: " << std::endl;
+		print_binary(gray);
 	}
-
 }
 
 void	testFormula(std::string &formula)
@@ -169,6 +148,64 @@ void eval_formula_tester(void)
 {
 	std::string	formula;
 
+	std::cout << "\033[34mBoolean evaluation tester:\033[0m" << std::endl;
+	std::cout << "OR" << std::endl;
+	formula = "00|";
+	testFormula(formula);
+	formula = "01|";
+	testFormula(formula);
+	formula = "10|";
+	testFormula(formula);
+	formula = "11|";
+	testFormula(formula);
+
+	std::cout << "AND" << std::endl;
+	formula = "00&";
+	testFormula(formula);
+	formula = "01&";
+	testFormula(formula);
+	formula = "10&";
+	testFormula(formula);
+	formula = "11&";
+	testFormula(formula);
+
+	std::cout << "Negation" << std::endl;
+	formula = "1!";
+	testFormula(formula);
+	formula = "0!";
+	testFormula(formula);
+
+	std::cout << "XOR" << std::endl;
+	formula = "00^";
+	testFormula(formula);
+	formula = "01^";
+	testFormula(formula);
+	formula = "10^";
+	testFormula(formula);
+	formula = "11^";
+	testFormula(formula);
+
+	std::cout << "Conditional" << std::endl;
+	formula = "00>";
+	testFormula(formula);
+	formula = "01>";
+	testFormula(formula);
+	formula = "10>";
+	testFormula(formula);
+	formula = "11>";
+	testFormula(formula);
+
+	std::cout << "Biconditional" << std::endl;
+	formula = "00=";
+	testFormula(formula);
+	formula = "01=";
+	testFormula(formula);
+	formula = "10=";
+	testFormula(formula);
+	formula = "11=";
+	testFormula(formula);
+
+	std::cout << "Random" << std::endl;
 	formula = "0!1^";
 	testFormula(formula);
 	formula = "01>";
@@ -177,16 +214,42 @@ void eval_formula_tester(void)
 	testFormula(formula);
 	formula = "001||1>!";
 	testFormula(formula);
+	formula = "001||1>11!1^=!&";
+	testFormula(formula);
+	formula = "001||1>11!1^=!&!";
+	testFormula(formula);
+	// formula = "11&&";
+	// testFormula(formula);
 }
 
 void print_truth_table_tester(void)
 {
-	//readySetBool::print_truth_table("AB>");
-	readySetBool::print_truth_table("AZB&&");
-	// readySetBool::print_truth_table("AB=");
-	// readySetBool::print_truth_table("AB&");
-	// readySetBool::print_truth_table("AB&C|");
-	// readySetBool::print_truth_table("ABC&|DE!|F=!=!!");
+	std::string formula;
+
+	std::cout << "\033[34mTruth table tester:\033[0m" << std::endl;
+	formula = "AB>";
+	std::cout << formula << std::endl;
+	readySetBool::print_truth_table(formula);
+
+	formula = "AZB&&";
+	std::cout << formula << std::endl;
+	readySetBool::print_truth_table(formula);
+
+	formula = "AB=";
+	std::cout << formula << std::endl;
+	readySetBool::print_truth_table(formula);
+
+	formula = "AB&";
+	std::cout << formula << std::endl;
+	readySetBool::print_truth_table(formula);
+
+	formula = "AB&C|";
+	std::cout << formula << std::endl;
+	readySetBool::print_truth_table(formula);
+
+	formula = "ABC&|DE!|F=!=!!";
+	std::cout << formula << std::endl;
+	readySetBool::print_truth_table(formula);
 }
 
 std::vector<bool>	testEquivalence(std::string formula)
@@ -236,6 +299,7 @@ void negation_formal_norm_tester(void)
 {
 	std::string	formula;
 
+	std::cout << "\033[34mNegation Normal Form tester:\033[0m" << std::endl;
 	formula = "AB=!";
 	testNorm(formula, 0);
 
@@ -324,54 +388,12 @@ void negation_formal_norm_tester(void)
 	// testNorm(formula, 0);
 }
 
-void sat_tester(void)
-{
-	std::string formula;
-
-	formula = "AA!&";
-	if (readySetBool::sat(formula) == true)
-		std::cout << "satisfiable" << std::endl;
-	else
-		std::cout << "not satisfiable" << std::endl;
-
-	formula = "ABC||A!B!C!&&&";
-	if (readySetBool::sat(formula) == true)
-		std::cout << "satisfiable" << std::endl;
-	else
-		std::cout << "not satisfiable" << std::endl;
-
-	formula = "ABC&|DE!|F=!=!!";
-	if (readySetBool::sat(formula) == true)
-		std::cout << "satisfiable" << std::endl;
-	else
-		std::cout << "not satisfiable" << std::endl;
-}
-
-void powerset_tester(void)
-{
-	std::vector<int> set = {1, 2, 3, 4, 5, 6};
-		std::vector<std::vector<int>> powerSet = readySetBool::powerset(set);
-		for (std::vector<std::vector<int>>::iterator it1 = powerSet.begin(); it1 != powerSet.end(); it1++)
-		{
-			std::cout << "{ ";
-			for (std::vector<int>::iterator it2 = (*it1).begin(); it2 != (*it1).end(); it2++)
-			{
-				std::cout << *it2 << " ";
-			}
-			std::cout << "}" << std::endl;
-		}
-}
-
 void conjunction_formal_norm_tester(void)
 {
 	std::string		formula;
 	std::string		result;
 
-	// formula = "ABC!&^";
-	// readySetBool::print_truth_table(formula);
-	// result = readySetBool::conjunctive_normal_form(formula);
-	// std::cout << result << std::endl;
-	// readySetBool::print_truth_table(result);
+	std::cout << "\033[34mConjunctive Normal Form tester:\033[0m" << std::endl;
 
 	formula = "A!B&CA!&AB|=^!";
 	testNorm(formula, 1);
@@ -465,8 +487,53 @@ void conjunction_formal_norm_tester(void)
 	
 }
 
+void sat_tester(void)
+{
+	std::string formula;
+
+	std::cout << "\033[34mSAT tester:\033[0m" << std::endl;
+	formula = "AA!&";
+	std::cout << formula << ": ";
+	if (readySetBool::sat(formula) == true)
+		std::cout << "\033[32msatisfiable\033[0m" << std::endl;
+	else
+		std::cout << "\033[31mnot satisfiable\033[0m" << std::endl;
+
+	formula = "ABC||A!B!C!&&&";
+	std::cout << formula << ": ";
+	if (readySetBool::sat(formula) == true)
+		std::cout << "\033[32msatisfiable\033[0m" << std::endl;
+	else
+		std::cout << "\033[31mnot satisfiable\033[0m" << std::endl;
+
+	formula = "ABC&|DE!|F=!=!!";
+	std::cout << formula << ": ";
+	if (readySetBool::sat(formula) == true)
+		std::cout << "\033[32msatisfiable\033[0m" << std::endl;
+	else
+		std::cout << "\033[31mnot satisfiable\033[0m" << std::endl;
+}
+
+void powerset_tester(void)
+{
+	std::cout << "\033[34mPowerset tester:\033[0m" << std::endl;
+	std::vector<int> set = {1, 2, 3, 4, 5, 6};
+		std::vector<std::vector<int>> powerSet = readySetBool::powerset(set);
+		for (std::vector<std::vector<int>>::iterator it1 = powerSet.begin(); it1 != powerSet.end(); it1++)
+		{
+			std::cout << "{ ";
+			for (std::vector<int>::iterator it2 = (*it1).begin(); it2 != (*it1).end(); it2++)
+			{
+				std::cout << *it2 << " ";
+			}
+			std::cout << "}" << std::endl;
+		}
+}
+
+
 void	eval_set_tester(void)
 {
+	std::cout << "\033[34mSet evaluation tester:\033[0m" << std::endl;
 	std::string formula;
 	formula = "AB&";
 	std::vector<int> result;
@@ -476,4 +543,17 @@ void	eval_set_tester(void)
 	for(std::vector<int>::iterator it = result.begin(); it < result.end(); it++)
 		std::cout << *it << " ";
 	std::cout << std::endl;
+}
+
+void	spaceFillingCurve_tester(void)
+{
+	double a;
+	std::pair<uint16_t, uint16_t> reverse_a;
+	a = readySetBool::map(std::numeric_limits<uint16_t>::max() - 1, std::numeric_limits<uint16_t>::max());
+	// std::cout << std::fixed << std::setprecision(20) << (double)a << std::endl;
+	std::cout << std::fixed << (double)a << std::endl;
+	reverse_a = readySetBool::reverse_map(a);
+	std::cout << "first: " << reverse_a.first << std::endl;
+	std::cout << "second: " << reverse_a.second << std::endl;
+	std::cout << std::numeric_limits<uint16_t>::max() << std::endl;
 }

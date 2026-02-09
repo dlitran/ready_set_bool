@@ -62,7 +62,7 @@ std::vector<int> readySetBool::eval_set(std::string &formula, std::vector<std::v
 		{
 			int position = (int)(std::find(setPropositions.begin(), setPropositions.end(), *it) - setPropositions.begin());
 			setStack.push(sets[position]);
-			std::cout << "position: " << position << std::endl;
+			//std::cout << "position: " << position << std::endl;
 		}
 
 		std::vector<int> tmpSet;
