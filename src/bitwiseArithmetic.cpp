@@ -1,4 +1,4 @@
-#include "../inc/readySetBool.hpp"
+#include "../inc/readySetBoole.hpp"
 
 unsigned int readySetBool::adder(unsigned int a, unsigned int b)
 {

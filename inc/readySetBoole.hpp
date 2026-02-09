@@ -1,5 +1,5 @@
-#ifndef READYSETBOOL_HPP
-# define READYSETBOOL_HPP
+#ifndef READYSETBOOLE_HPP
+# define READYSETBOOLE_HPP
 
 # include <stack>
 # include <set>

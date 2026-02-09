@@ -1,4 +1,4 @@
-#include "../inc/readySetBool.hpp"
+#include "../inc/readySetBoole.hpp"
 
 double readySetBool::map(uint16_t x, uint16_t y)
 {

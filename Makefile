@@ -1,6 +1,6 @@
-NAME := readySetBool
+NAME := readySetBoole
 SRC_DIR := src
-SRC_NAME := main.cpp readySetBool.cpp tester.cpp\
+SRC_NAME := main.cpp readySetBoole.cpp tester.cpp\
 			bitwiseArithmetic.cpp propositionalLogic.cpp\
 			setAlgebra.cpp spaceFillingCurve.cpp\
 			truthTable.cpp\
@@ -15,8 +15,6 @@ CC := g++
 CFLAGS := -Wall -Wextra -Werror
 
 INCLUDE_DIR := inc
-INC_NAME := main.hpp
-INCLUDE := $(addprefix $(INCLUDE_DIR)/,$(INC_NAME))
 
 RM := rm -f
 

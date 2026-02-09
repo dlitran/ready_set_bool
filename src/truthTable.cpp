@@ -1,4 +1,4 @@
-#include "../inc/readySetBool.hpp"
+#include "../inc/readySetBoole.hpp"
 
 void	binary_bitwise_operation(std::stack<bool>	&bitStack, std::map<std::string, bool(*)(bool, bool)> &bitwiseOperationMap, char	operation)
 {

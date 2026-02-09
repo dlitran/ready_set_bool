@@ -1,4 +1,4 @@
-#include "../inc/readySetBool.hpp"
+#include "../inc/readySetBoole.hpp"
 
 int	countPropositions(std::string formula, std::vector<char> &setPropositions)
 {

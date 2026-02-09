@@ -5,7 +5,7 @@
 # include <climits>
 # include <cstdlib>
 # include <ctime>
-# include "readySetBool.hpp"
+# include "readySetBoole.hpp"
 
 	//class readySetBool;
 	void	adder_tester(void);

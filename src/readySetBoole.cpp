@@ -1,4 +1,4 @@
-#include "../inc/readySetBool.hpp"
+#include "../inc/readySetBoole.hpp"
 
 const char *readySetBool::InvalidInputException::what() const throw()
 {

@@ -1,4 +1,4 @@
-#include "../inc/readySetBool.hpp"
+#include "../inc/readySetBoole.hpp"
 
 std::vector<std::vector<int>> readySetBool::powerset(std::vector<int> set)
 {
