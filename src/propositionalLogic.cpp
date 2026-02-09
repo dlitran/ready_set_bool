@@ -28,7 +28,7 @@ std::string	logicOR(std::string	bit1, std::string	bit2)
 
 std::string	logicXOR(std::string	bit1, std::string	bit2)
 {
-	return(readySetBool::negation_formal_norm(bit1 + bit2 + "!&" + bit1 + "!" + bit2 + "&|")); //TODO Lo mismo que el conditional
+	return(readySetBool::negation_formal_norm(bit2 + bit1 + "!&" + bit2 + "!" + bit1 + "&|")); //TODO Lo mismo que el conditional
 }
 
 std::string	logicConditional(std::string	bit1, std::string	bit2)
@@ -204,7 +204,7 @@ bool readySetBool::sat(std::string formula)
 	int	permutation;
 	int indexArray[128] = {};
 
-	numProposition = countPropositions2(formula, indexArray);
+	numProposition = countPropositionsIndex(formula, indexArray);
 	permutation = 0;
 	while (permutation < (1 << numProposition))
 	{

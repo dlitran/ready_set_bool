@@ -28,7 +28,7 @@
 			bool optimized_eval_formula(std::string formula, int numProposition,  int *indexArray, int	permutation);
 			void print_truth_table(std::string formula);
 
-			int	countPropositions2(std::string formula, int *indexArray);
+			int	countPropositionsIndex(std::string formula, int *indexArray);
 
 			std::string negation_formal_norm(std::string formula);
 			std::string de_morgan_laws(char op, int position, std::string formula, std::map<std::string, std::string(*)(std::string, std::string)> &negationFormalNormMap);

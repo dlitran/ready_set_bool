@@ -189,14 +189,14 @@ void print_truth_table_tester(void)
 	// readySetBool::print_truth_table("ABC&|DE!|F=!=!!");
 }
 
-std::vector<bool>	testNegationNormalForm(std::string formula)
+std::vector<bool>	testEquivalence(std::string formula)
 {
 	int	numProposition;
 	int	permutation;
     int indexArray[128] = {};
 	std::vector<bool> result;
 
-	numProposition = readySetBool::countPropositions2(formula, indexArray);
+	numProposition = readySetBool::countPropositionsIndex(formula, indexArray);
 	permutation = 0;
 	while (permutation < (1 << numProposition))
 	{
@@ -206,28 +206,122 @@ std::vector<bool>	testNegationNormalForm(std::string formula)
 	return (result);
 }
 
-void negation_formal_norm_tester(void)
+void	testNorm(std::string formula, bool formalNorm)
 {
-	std::string	formula;
 	std::string	norm;
 	std::vector<bool> vectorFormula;
 	std::vector<bool> vectorNorm;
 
-	formula = "ABC!&!!|DE!|F=!=!A!&";
-	//formula = "AB=!";
 	std::cout << "before: " << formula << std::endl;
-	vectorFormula = testNegationNormalForm(formula);
-	norm = readySetBool::negation_formal_norm(formula);
-	vectorNorm = testNegationNormalForm(norm);
+	vectorFormula = testEquivalence(formula);
+	if (formalNorm == 0)
+		norm = readySetBool::negation_formal_norm(formula);
+	else
+		norm = readySetBool::conjunctive_normal_form(formula);
+	vectorNorm = testEquivalence(norm);
 	std::cout << "after: " << norm << std::endl;
 	if (vectorFormula ==  vectorNorm)
-		std::cout << "Son iguales" << std::endl;
-	for (std::vector<bool>::iterator it = vectorNorm.begin(); it != vectorNorm.end(); it++)
-		std::cout << *it << ", ";
-	std::cout << std::endl;
-	for (std::vector<bool>::iterator it = vectorFormula.begin(); it != vectorFormula.end(); it++)
-		std::cout << *it << ", ";
-	std::cout << std::endl;
+		std::cout << "\033[32mCorrect\033[0m" << std::endl;
+	else
+		std::cout << "\033[31mIncorrect\033[0m" << std::endl;
+	// for (std::vector<bool>::iterator it = vectorNorm.begin(); it != vectorNorm.end(); it++)
+	// 	std::cout << *it << ", ";
+	// std::cout << std::endl;
+	// for (std::vector<bool>::iterator it = vectorFormula.begin(); it != vectorFormula.end(); it++)
+	// 	std::cout << *it << ", ";
+	// std::cout << std::endl;
+}
+
+void negation_formal_norm_tester(void)
+{
+	std::string	formula;
+
+	formula = "AB=!";
+	testNorm(formula, 0);
+
+	formula = "BA|";
+	testNorm(formula, 0);
+
+	formula = "AB&";
+	testNorm(formula, 0);
+
+	formula = "AB^";
+	testNorm(formula, 0);
+
+	formula = "AB=";
+	testNorm(formula, 0);
+
+	formula = "AB>";
+	testNorm(formula, 0);
+
+	formula = "A!";
+	testNorm(formula, 0);
+
+	formula = "AB|C&";
+	testNorm(formula, 0);
+
+	formula = "ABC&|";
+	testNorm(formula, 0);
+
+	formula = "AB|C^";
+	testNorm(formula, 0);
+
+	formula = "AB&!C|";
+	testNorm(formula, 0);
+
+	formula = "AB=!C&";
+	testNorm(formula, 0);
+
+	formula = "AB>C>";
+	testNorm(formula, 0);
+
+	formula = "ABC||";
+	testNorm(formula, 0);
+
+	formula = "ABC&&";
+	testNorm(formula, 0);
+
+	formula = "AB&!C>!";
+	testNorm(formula, 0);
+
+	formula = "AB|C^D&";
+	testNorm(formula, 0);
+
+	formula = "ABCD&&|";
+	testNorm(formula, 0);
+
+	formula = "AB^C=!D|";
+	testNorm(formula, 0);
+
+	formula = "AB>!C&D=";
+	testNorm(formula, 0);
+
+	formula = "ABCD>>>";
+	testNorm(formula, 0);
+
+	formula = "AB^C=";
+	testNorm(formula, 0);
+
+	formula = "ABC!&!!|DE!|F=!=!A!&";
+	testNorm(formula, 0);
+
+	formula = "AB>BC>&AC>>";
+	testNorm(formula, 0);
+
+	formula = "AB|!A!B!&>A!B!&AB|!>&";
+	testNorm(formula, 0);
+
+	formula = "AB|C>CD>AD>>&";
+	testNorm(formula, 0);
+
+	formula = "AB>!AB!&>";
+	testNorm(formula, 0);
+
+	formula = "AB^AC>BC>&C>>";
+	testNorm(formula, 0);
+
+	formula = "!";
+	testNorm(formula, 0);
 }
 
 void sat_tester(void)
@@ -280,10 +374,95 @@ void conjunction_formal_norm_tester(void)
 	// readySetBool::print_truth_table(result);
 
 	formula = "A!B&CA!&AB|=^!";
-	readySetBool::print_truth_table(formula);
-	result = readySetBool::conjunctive_normal_form(formula);
-	std::cout << result << std::endl;
-	readySetBool::print_truth_table(result);
+	testNorm(formula, 1);
+
+	formula = "AB=!";
+	testNorm(formula, 1);
+
+	formula = "BA|";
+	testNorm(formula, 1);
+
+	formula = "AB&";
+	testNorm(formula, 1);
+
+	formula = "AB^";
+	testNorm(formula, 1);
+
+	formula = "AB=";
+	testNorm(formula, 1);
+
+	formula = "AB>";
+	testNorm(formula, 1);
+
+	formula = "A!";
+	testNorm(formula, 1);
+
+	formula = "AB|C&";
+	testNorm(formula, 1);
+
+	formula = "ABC&|";
+	testNorm(formula, 1);
+
+	formula = "AB|C^";
+	testNorm(formula, 1);
+
+	formula = "AB&!C|";
+	testNorm(formula, 1);
+
+	formula = "AB=!C&";
+	testNorm(formula, 1);
+
+	formula = "AB>C>";
+	testNorm(formula, 1);
+
+	formula = "ABC||";
+	testNorm(formula, 1);
+
+	formula = "ABC&&";
+	testNorm(formula, 1);
+
+	formula = "AB&!C>!";
+	testNorm(formula, 1);
+
+	formula = "AB|C^D&";
+	testNorm(formula, 1);
+
+	formula = "ABCD&&|";
+	testNorm(formula, 1);
+
+	formula = "AB^C=!D|";
+	testNorm(formula, 1);
+
+	formula = "AB>!C&D=";
+	testNorm(formula, 1);
+
+	formula = "ABCD>>>";
+	testNorm(formula, 1);
+
+	formula = "AB^C=";
+	testNorm(formula, 1);
+
+	formula = "ABC!&!!|DE!|F=!=!A!&";
+	testNorm(formula, 1);
+
+	formula = "AB>BC>&AC>>";
+	testNorm(formula, 1);
+
+	formula = "AB|!A!B!&>A!B!&AB|!>&";
+	testNorm(formula, 1);
+
+	formula = "AB|C>CD>AD>>&";
+	testNorm(formula, 1);
+
+	formula = "AB>!AB!&>";
+	testNorm(formula, 1);
+
+	formula = "AB^AC>BC>&C>>";
+	testNorm(formula, 1);
+
+	formula = "!";
+	testNorm(formula, 1);
+	
 }
 
 void	eval_set_tester(void)

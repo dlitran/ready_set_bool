@@ -110,7 +110,7 @@ bool readySetBool::optimized_eval_formula(std::string formula, int numPropositio
 	return (bitStack.top());
 }
 
-int	readySetBool::countPropositions2(std::string formula, int *indexArray)
+int	readySetBool::countPropositionsIndex(std::string formula, int *indexArray)
 {
 	int	numProposition;
 
@@ -181,7 +181,7 @@ void readySetBool::print_truth_table(std::string formula)
     // Así luego al evaluar la fórmula, cuando nos encontramos con la A accedemos rápido a su posición en el header O(1).
     //Es una mejora de eficiencia respecto al find O(N).
 
-	numProposition = countPropositions2(formula, indexArray); //Cuenta las proposiciones en la fórmula (sin repetición) y inicializa el indexArray.
+	numProposition = countPropositionsIndex(formula, indexArray); //Cuenta las proposiciones en la fórmula (sin repetición) y inicializa el indexArray.
 	print_header(indexArray, numProposition);
 	permutation = 0;
 	while (permutation < (1 << numProposition)) //The power of two of numProposition -> i iterates 000, 001, 010, 011... up to 10000 (with as many 0 as propositions).

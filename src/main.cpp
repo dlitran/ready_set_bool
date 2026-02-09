@@ -38,7 +38,7 @@ void	randomTest(void)
 {
 	int	indexArray[128];
 	std::string formula = "AB&";
-	int numProposition = readySetBool::countPropositions2(formula, indexArray);
+	int numProposition = readySetBool::countPropositionsIndex(formula, indexArray);
 	std::cout << substitute_formula(formula, indexArray, numProposition, 2) << std::endl;
 }
 
@@ -50,8 +50,8 @@ int main(void)
 		//gray_code_tester();
 		//eval_formula_tester();
 		// print_truth_table_tester();
-		negation_formal_norm_tester();
-		//conjunction_formal_norm_tester();
+		// negation_formal_norm_tester();
+		conjunction_formal_norm_tester();
 		// sat_tester();
 		//powerset_tester();
 		//eval_set_tester();
