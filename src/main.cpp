@@ -46,15 +46,15 @@ int main(void)
 {
 	try
 	{
-		//adder_tester();
-		//gray_code_tester();
-		//eval_formula_tester();
+		// adder_tester();
+		// gray_code_tester();
+		// eval_formula_tester();
 		// print_truth_table_tester();
 		// negation_formal_norm_tester();
-		conjunction_formal_norm_tester();
-		// sat_tester();
-		//powerset_tester();
-		//eval_set_tester();
+		// conjunction_formal_norm_tester();
+		sat_tester();
+		powerset_tester();
+		eval_set_tester();
 		
 	}
 	catch (std::exception &e)

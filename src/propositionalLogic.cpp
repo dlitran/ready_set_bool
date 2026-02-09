@@ -192,6 +192,14 @@ std::string readySetBool::conjunctive_normal_form(std::string formula)
 		}
 		i++;
 	}
+	if (cnf == "")
+	{
+		for (std::vector<char>::iterator it = setPropositions.begin(); it != setPropositions.end(); it++)
+		{
+			cnf = cnf + *it + *it +"!|";
+			conjunction_count++;
+		}
+	}
 	for (int iterator = 0; iterator < (conjunction_count - 1); iterator++)
 		cnf = cnf + "&";
 	//TODO Further optimization can be done here.

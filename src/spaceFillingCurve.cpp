@@ -23,9 +23,12 @@ double readySetBool::map(uint16_t x, uint16_t y)
 
 		i--;
 	}
-	printf("X: %b\n", x);
-	printf("Y: %b\n", y);
-	printf("result: %lb\n", result);
+	// printf("X: %b\n", x);
+	// printf("Y: %b\n", y);
+	std::cout << "x: " << std::bitset<16>(x) << std::endl;
+	std::cout << "y: " << std::bitset<16>(y) << std::endl;
+	std::cout << "result: " << std::bitset<16>(result) << std::endl;
+	// printf("result: %lb\n", result);
 	//std::cout << UINT_MAX << std::endl;
 	std::cout << result << std::endl;
 	value = (double)result / (double)UINT_MAX;
@@ -54,7 +57,7 @@ std::pair<uint16_t, uint16_t> readySetBool::reverse_map(double z)
 			y = y + 1;
 		i--;
 	}
-	printf("x: %b\n", x);
-	printf("y: %b\n", y);
+	std::cout << "x: " << std::bitset<16>(x) << std::endl;
+	std::cout << "y: " << std::bitset<16>(y) << std::endl;
 	return(std::pair<uint16_t, uint16_t>(x, y));
 }

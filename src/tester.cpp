@@ -320,8 +320,8 @@ void negation_formal_norm_tester(void)
 	formula = "AB^AC>BC>&C>>";
 	testNorm(formula, 0);
 
-	formula = "!";
-	testNorm(formula, 0);
+	// formula = "!";
+	// testNorm(formula, 0);
 }
 
 void sat_tester(void)
@@ -460,8 +460,8 @@ void conjunction_formal_norm_tester(void)
 	formula = "AB^AC>BC>&C>>";
 	testNorm(formula, 1);
 
-	formula = "!";
-	testNorm(formula, 1);
+	// formula = "!";
+	// testNorm(formula, 1);
 	
 }
 

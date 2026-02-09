@@ -13,6 +13,7 @@
 # include <climits>
 # include <utility>
 # include <map>
+# include <bitset>
 
 # define BIT_SIZE 32
 
