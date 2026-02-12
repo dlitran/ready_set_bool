@@ -43,7 +43,7 @@ int main(void)
 		// conjunction_formal_norm_tester();
 		// sat_tester();
 		// powerset_tester();
-		// eval_set_tester();
+		eval_set_tester();
 		// spaceFillingCurve_tester();
 		
 	}

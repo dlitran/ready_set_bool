@@ -1,6 +1,6 @@
 #include "../inc/readySetBoole.hpp"
 
-int	countPropositions(std::string formula, std::vector<char> &setPropositions)
+int	readySetBool::countPropositions(std::string formula, std::vector<char> &setPropositions)
 {
 	int	numProposition;
 
@@ -13,7 +13,7 @@ int	countPropositions(std::string formula, std::vector<char> &setPropositions)
 			numProposition++; //set a limit.
 		}
 	}
-	return( numProposition);
+	return (numProposition);
 }
 
 std::string	logicAND(std::string	bit1, std::string	bit2)

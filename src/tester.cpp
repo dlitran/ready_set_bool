@@ -530,19 +530,68 @@ void powerset_tester(void)
 		}
 }
 
+void print_result_set(std::string formula, std::vector<std::vector<int>> sets)
+{
+	std::vector<int> result;
+
+	std::cout << "\033[30m" << formula << "\033[0m" << std::endl;
+	result = readySetBool::eval_set(formula, sets);
+	std::cout << "{ ";
+	for(std::vector<int>::iterator it = result.begin(); it < result.end(); it++)
+	{
+		std::cout << *it;
+		if (it + 1 != result.end())
+			std::cout << ", ";
+	}
+	std::cout <<  " }" << std::endl;
+}
 
 void	eval_set_tester(void)
 {
-	std::cout << "\033[34mSet evaluation tester:\033[0m" << std::endl;
 	std::string formula;
-	formula = "AB&";
-	std::vector<int> result;
 	std::vector<std::vector<int>> sets;
+	int i = 65;
+
+	std::cout << "\033[34mSet evaluation tester:\033[0m" << std::endl;
+
 	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
-	result = readySetBool::eval_set(formula, sets);
-	for(std::vector<int>::iterator it = result.begin(); it < result.end(); it++)
-		std::cout << *it << " ";
-	std::cout << std::endl;
+	for(std::vector<std::vector<int>>::iterator it1 = sets.begin(); it1 != sets.end(); it1++)
+	{
+		std::cout << "\033[31m" << (char)i << ": \033[0m{ ";
+		for(std::vector<int>::iterator it2 = (*it1).begin(); it2 < (*it1).end(); it2++)
+		{
+			std::cout << *it2;
+			if (it2 + 1 != (*it1).end())
+				std::cout << ", ";
+		}
+		std::cout << " }" << std::endl;
+		i++;
+	}
+
+	formula = "AB&";
+	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
+	print_result_set(formula, sets);
+
+	formula = "AB|";
+	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
+	print_result_set(formula, sets);
+
+	formula = "A!B|";
+	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
+	print_result_set(formula, sets);
+
+	formula = "AB=";
+	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
+	print_result_set(formula, sets);
+
+	formula = "AB^";
+	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
+	print_result_set(formula, sets);
+
+	formula = "AB&&";
+	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
+	print_result_set(formula, sets);
+	
 }
 
 void	spaceFillingCurve_tester(void)

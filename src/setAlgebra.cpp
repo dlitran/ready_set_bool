@@ -26,12 +26,8 @@ std::vector<std::vector<int>> readySetBool::powerset(std::vector<int> set)
 	return(powerSet);
 }
 
-std::vector<int> readySetBool::eval_set(std::string &formula, std::vector<std::vector<int>> sets)
+void	create_global_set(std::vector<std::vector<int>> &sets, std::vector<int> &globalSet)
 {
-	std::vector<int> globalSet;
-	int	numProposition;
-	std::vector<char> setPropositions;
-
 	for (std::vector<std::vector<int>>::iterator it1 = sets.begin(); it1 != sets.end(); it1++)
 	{
 		for (std::vector<int>::iterator it2 = (*it1).begin(); it2 != (*it1).end(); it2++)
@@ -44,16 +40,150 @@ std::vector<int> readySetBool::eval_set(std::string &formula, std::vector<std::v
 	// {
 	// 	std::cout << *it << std::endl;
 	// }
-	numProposition = 0;
-	for (std::string::iterator it = formula.begin(); it != formula.end(); it++)
+}
+
+std::vector<int>	logicAND(std::vector<int>	tmp1, std::vector<int>	tmp2, std::vector<int>	globalSet)
+{
+	std::vector<int>	tmpSet;
+
+	(void)globalSet;
+	tmpSet = {};
+	for (std::vector<int>::iterator it2 = tmp1.begin(); it2 != tmp1.end(); it2++)
 	{
-		if (isupper(*it) && (std::find(setPropositions.begin(), setPropositions.end(), *it) == setPropositions.end()))
+		if (std::find(tmp2.begin(), tmp2.end(), *it2) != tmp2.end())
 		{
-			setPropositions.push_back(*it);
-			numProposition++; //set a limit.
+			tmpSet.push_back(*it2);
 		}
 	}
+	return(tmpSet);
+}
+
+std::vector<int>	logicOR(std::vector<int>	tmp1, std::vector<int>	tmp2, std::vector<int>	globalSet)
+{
+	std::vector<int> tmpSet;
+
+	(void)globalSet;
+	tmpSet = tmp1;
+	for (std::vector<int>::iterator it2 = tmp2.begin(); it2 != tmp2.end(); it2++)
+	{
+		if (std::find(tmpSet.begin(), tmpSet.end(), *it2) == tmpSet.end())
+		{
+			tmpSet.push_back(*it2);
+		}
+	}
+	return(tmpSet);
+}
+
+std::vector<int>	logicXOR(std::vector<int>	tmp1, std::vector<int>	tmp2, std::vector<int>	globalSet)
+{
+	std::vector<int>	tmpSet;
+	
+	(void)globalSet;
+	tmpSet = tmp1;
+	for (std::vector<int>::iterator it2 = tmp2.begin(); it2 != tmp2.end(); it2++)
+	{
+		if (std::find(tmpSet.begin(), tmpSet.end(), *it2) == tmpSet.end())
+		{
+			tmpSet.push_back(*it2);
+		}
+		else
+		{
+			tmpSet.erase(std::find(tmpSet.begin(), tmpSet.end(), *it2));
+		}
+	}
+	return(tmpSet);
+}
+
+std::vector<int>	logicConditional(std::vector<int>	tmp1, std::vector<int>	tmp2, std::vector<int>	globalSet)
+{
+	std::vector<int>	tmpSet;
+
+	tmpSet = globalSet;
+	for (std::vector<int>::iterator it2 = globalSet.begin(); it2 != globalSet.end(); it2++)
+	{
+		if (std::find(tmp2.begin(), tmp2.end(), *it2) != tmp2.end() && std::find(tmp1.begin(), tmp1.end(), *it2) == tmp1.end())
+		{
+			tmpSet.erase(std::find(tmpSet.begin(), tmpSet.end(), *it2));
+		}
+	}
+	return(tmpSet);
+}
+
+std::vector<int>	logicBiconditional(std::vector<int>	tmp1, std::vector<int>	tmp2,  std::vector<int>	globalSet)
+{
+	std::vector<int>	tmpSet;
+	
+	(void)globalSet;
+	tmpSet = {};
+	for (std::vector<int>::iterator it2 = globalSet.begin(); it2 != globalSet.end(); it2++)
+	{
+		if (std::find(tmp2.begin(), tmp2.end(), *it2) != tmp2.end() && std::find(tmp1.begin(), tmp1.end(), *it2) != tmp1.end())
+		{
+			tmpSet.push_back(*it2);
+		}
+		else if (std::find(tmp2.begin(), tmp2.end(), *it2) == tmp2.end() && std::find(tmp1.begin(), tmp1.end(), *it2) == tmp1.end())
+		{
+			tmpSet.push_back(*it2);
+		}
+	}
+	return(tmpSet);
+}
+
+std::map<std::string, std::vector<int>(*)(std::vector<int>, std::vector<int>, std::vector<int>)>	initializeSetOperationMap(void)
+{
+	std::map<std::string, std::vector<int>(*)(std::vector<int>, std::vector<int>, std::vector<int>)> setOperationMap;
+	setOperationMap["&"] = &logicAND;
+	setOperationMap["|"] = &logicOR;
+	setOperationMap["^"] = &logicXOR;
+	setOperationMap[">"] = &logicConditional;
+	setOperationMap["="] = &logicBiconditional;
+	return (setOperationMap);
+}
+
+void	set_logic(std::stack<std::vector<int>> &setStack, std::map<std::string, std::vector<int>(*)(std::vector<int>, std::vector<int>, std::vector<int>)> &setOperationMap, char operation, std::vector<int>	&globalSet)
+{
+	std::vector<int> tmpSet;
+	std::vector<int> tmp1;
+	std::vector<int> tmp2;
+
+	if (operation == '!')
+	{
+		if (setStack.size() < 1)
+			throw readySetBool::InvalidInputException();
+		tmp1 = setStack.top();
+		setStack.pop();
+		tmpSet = globalSet;
+		for (std::vector<int>::iterator it2 = tmp1.begin(); it2 != tmp1.end(); it2++)
+		{
+			if (std::find(tmpSet.begin(), tmpSet.end(), *it2) != tmpSet.end())
+				tmpSet.erase(std::find(tmpSet.begin(), tmpSet.end(), *it2));
+		}
+		setStack.push(tmpSet);
+	}
+	else 
+	{
+		if (setStack.size() < 2)
+			throw readySetBool::InvalidInputException();
+		tmp1 = setStack.top();
+		setStack.pop();
+		tmp2 = setStack.top();
+		setStack.pop();
+		setStack.push(setOperationMap.at(std::string(1, operation))(tmp1, tmp2, globalSet));
+	}
+}
+
+std::vector<int> readySetBool::eval_set(std::string &formula, std::vector<std::vector<int>> sets)
+{
+	std::vector<int> globalSet;
+	std::map<std::string, std::vector<int>(*)(std::vector<int>, std::vector<int>, std::vector<int>)> setOperationMap;
+	std::vector<char> setPropositions;
 	std::stack<std::vector<int>> setStack;
+
+
+	setOperationMap = initializeSetOperationMap();
+	create_global_set(sets,globalSet);
+	readySetBool::countPropositions(formula, setPropositions);
+
 	for (std::string::iterator it = formula.begin(); it != formula.end(); it++)
 	{
 		// if (*it != '!' && *it != '|' && *it != '&' && *it != '>' && *it != '=' && *it != '^')
@@ -64,112 +194,11 @@ std::vector<int> readySetBool::eval_set(std::string &formula, std::vector<std::v
 			setStack.push(sets[position]);
 			//std::cout << "position: " << position << std::endl;
 		}
-
-		std::vector<int> tmpSet;
-		std::vector<int> tmp1;
-		std::vector<int> tmp2;
-
-	 	if (*it == '!')
-		{
-			tmp1 = setStack.top();
-			setStack.pop();
-			tmpSet = globalSet;
-			for (std::vector<int>::iterator it2 = tmp1.begin(); it2 != tmp1.end(); it2++)
-			{
-				if (std::find(tmpSet.begin(), tmpSet.end(), *it2) != tmpSet.end())
-					tmpSet.erase(std::find(tmpSet.begin(), tmpSet.end(), *it2));
-			}
-			setStack.push(tmpSet);
-		}
-		else if (*it == '|')
-		{
-			tmp1 = setStack.top();
-			setStack.pop();
-			tmp2 = setStack.top();
-			setStack.pop();
-			tmpSet = tmp1;
-			for (std::vector<int>::iterator it2 = tmp2.begin(); it2 != tmp2.end(); it2++)
-			{
-				if (std::find(tmpSet.begin(), tmpSet.end(), *it2) == tmpSet.end())
-				{
-					tmpSet.push_back(*it2);
-				}
-			}
-			setStack.push(tmpSet);
-		}
-		else if (*it == '&')
-		{
-			tmp1 = setStack.top();
-			setStack.pop();
-			tmp2 = setStack.top();
-			setStack.pop();
-			tmpSet = {};
-			for (std::vector<int>::iterator it2 = tmp1.begin(); it2 != tmp1.end(); it2++)
-			{
-				if (std::find(tmp2.begin(), tmp2.end(), *it2) != tmp2.end())
-				{
-					tmpSet.push_back(*it2);
-				}
-			}
-			setStack.push(tmpSet);
-		}
-		else if (*it == '^')
-		{
-			tmp1 = setStack.top();
-			setStack.pop();
-			tmp2 = setStack.top();
-			setStack.pop();
-			tmpSet = tmp1;
-			for (std::vector<int>::iterator it2 = tmp2.begin(); it2 != tmp2.end(); it2++)
-			{
-				if (std::find(tmpSet.begin(), tmpSet.end(), *it2) == tmpSet.end())
-				{
-					tmpSet.push_back(*it2);
-				}
-				else
-				{
-					tmpSet.erase(std::find(tmpSet.begin(), tmpSet.end(), *it2));
-				}
-			}
-			setStack.push(tmpSet);
-		}
-		else if (*it == '>')
-		{
-			tmp1 = setStack.top();
-			setStack.pop();
-			tmp2 = setStack.top();
-			setStack.pop();
-			tmpSet = globalSet;
-			for (std::vector<int>::iterator it2 = globalSet.begin(); it2 != globalSet.end(); it2++)
-			{
-				if (std::find(tmp2.begin(), tmp2.end(), *it2) != tmp2.end() && std::find(tmp1.begin(), tmp1.end(), *it2) == tmp1.end())
-				{
-					tmpSet.erase(std::find(tmpSet.begin(), tmpSet.end(), *it2));
-				}
-			}
-			setStack.push(tmpSet);
-		}
-		else if (*it == '=')
-		{
-			tmp1 = setStack.top();
-			setStack.pop();
-			tmp2 = setStack.top();
-			setStack.pop();
-			tmpSet = {};
-			for (std::vector<int>::iterator it2 = globalSet.begin(); it2 != globalSet.end(); it2++)
-			{
-				if (std::find(tmp2.begin(), tmp2.end(), *it2) != tmp2.end() && std::find(tmp1.begin(), tmp1.end(), *it2) != tmp1.end())
-				{
-					tmpSet.push_back(*it2);
-				}
-				else if (std::find(tmp2.begin(), tmp2.end(), *it2) == tmp2.end() && std::find(tmp1.begin(), tmp1.end(), *it2) == tmp1.end())
-				{
-					tmpSet.push_back(*it2);
-				}
-			}
-			setStack.push(tmpSet);
-		}
+		else
+			set_logic(setStack, setOperationMap, *it, globalSet);
 	}
 	//print_truth_table(formula);
+	if (setStack.size() != 1)
+		throw readySetBool::InvalidInputException();
 	return(setStack.top());
 }

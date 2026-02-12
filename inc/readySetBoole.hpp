@@ -29,6 +29,7 @@
 			bool optimized_eval_formula(std::string formula, int numProposition,  int *indexArray, int	permutation);
 			void print_truth_table(std::string formula);
 
+			int	countPropositions(std::string formula, std::vector<char> &setPropositions);
 			int	countPropositionsIndex(std::string formula, int *indexArray);
 
 			std::string negation_formal_norm(std::string formula);
