@@ -8,7 +8,7 @@ void	binary_bitwise_operation(std::stack<bool>	&bitStack, std::map<std::string, 
 	if (operation == '!')
 	{
 		if (bitStack.size() < 1)
-			throw readySetBool::InvalidInputException();
+			throw readySetBoole::InvalidInputException();
 		bit1 = bitStack.top();
 		bitStack.pop();
 		bitStack.push(!bit1);
@@ -17,7 +17,7 @@ void	binary_bitwise_operation(std::stack<bool>	&bitStack, std::map<std::string, 
 	else
 	{
 		if (bitStack.size() < 2)
-			throw readySetBool::InvalidInputException();
+			throw readySetBoole::InvalidInputException();
 		bit1 = bitStack.top();
 		bitStack.pop();
 		bit2 = bitStack.top();
@@ -65,7 +65,7 @@ void	initializeBitwiseOperationMap(std::map<std::string, bool(*)(bool, bool)> &b
 	return ;
 }
 
-bool readySetBool::eval_formula(std::string formula) //Add possibility of multiple equal letters.
+bool readySetBoole::eval_formula(std::string formula) //Add possibility of multiple equal letters.
 {
 	std::stack<bool> bitStack;
 	std::map<std::string, bool(*)(bool, bool)> bitwiseOperationMap;
@@ -81,11 +81,11 @@ bool readySetBool::eval_formula(std::string formula) //Add possibility of multip
 			binary_bitwise_operation(bitStack, bitwiseOperationMap, formula[it]);
 	}
 	if (bitStack.size() != 1)
-		throw readySetBool::InvalidInputException();
+		throw readySetBoole::InvalidInputException();
 	return (bitStack.top());
 }
 
-bool readySetBool::optimized_eval_formula(std::string formula, int numProposition,  int *indexArray, int	permutation) //Add possibility of multiple equal letters.
+bool readySetBoole::optimized_eval_formula(std::string formula, int numProposition,  int *indexArray, int	permutation) //Add possibility of multiple equal letters.
 {
 	std::stack<bool> bitStack;
 	std::map<std::string, bool(*)(bool, bool)> bitwiseOperationMap;
@@ -106,11 +106,11 @@ bool readySetBool::optimized_eval_formula(std::string formula, int numPropositio
 			binary_bitwise_operation(bitStack, bitwiseOperationMap, formula[it]);
 	}
 	if (bitStack.size() != 1)
-		throw readySetBool::InvalidInputException();
+		throw readySetBoole::InvalidInputException();
 	return (bitStack.top());
 }
 
-int	readySetBool::countPropositionsIndex(std::string formula, int *indexArray)
+int	readySetBoole::countPropositionsIndex(std::string formula, int *indexArray)
 {
 	int	numProposition;
 
@@ -172,7 +172,7 @@ void	print_permutation(int	numProposition, int	permutation)
 //TODO: la truth table ahora mismo tiene una complejidad de 2^N * (N(std::find en el vector) * N(transformar formula) * L(eval_formula) + N(imprimir cosas))
 //TODO: std::find en el vector -> std::find en un set. (quitaria la N)
 //TODO: transformar la fórmula ->
-void readySetBool::print_truth_table(std::string formula)
+void readySetBoole::print_truth_table(std::string formula)
 {
 	int	numProposition;
 	int	permutation;
@@ -187,7 +187,7 @@ void readySetBool::print_truth_table(std::string formula)
 	while (permutation < (1 << numProposition)) //The power of two of numProposition -> i iterates 000, 001, 010, 011... up to 10000 (with as many 0 as propositions).
 	{
 		print_permutation(numProposition, permutation);
-		std::cout << " " << readySetBool::optimized_eval_formula(formula, numProposition,  indexArray, permutation) << " |" << std::endl;
+		std::cout << " " << readySetBoole::optimized_eval_formula(formula, numProposition,  indexArray, permutation) << " |" << std::endl;
 		permutation++;
 	}
 }

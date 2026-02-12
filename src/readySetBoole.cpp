@@ -1,6 +1,6 @@
 #include "../inc/readySetBoole.hpp"
 
-const char *readySetBool::InvalidInputException::what() const throw()
+const char *readySetBoole::InvalidInputException::what() const throw()
 {
 	return("Error: Invalid input.");
 }

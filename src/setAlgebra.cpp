@@ -1,6 +1,6 @@
 #include "../inc/readySetBoole.hpp"
 
-std::vector<std::vector<int>> readySetBool::powerset(std::vector<int> set)
+std::vector<std::vector<int>> readySetBoole::powerset(std::vector<int> set)
 {
 	/*to calculate the powerset we consider that each element has two possible states: include or excluede.*/
 	int	cardinal;
@@ -149,7 +149,7 @@ void	set_logic(std::stack<std::vector<int>> &setStack, std::map<std::string, std
 	if (operation == '!')
 	{
 		if (setStack.size() < 1)
-			throw readySetBool::InvalidInputException();
+			throw readySetBoole::InvalidInputException();
 		tmp1 = setStack.top();
 		setStack.pop();
 		tmpSet = globalSet;
@@ -163,7 +163,7 @@ void	set_logic(std::stack<std::vector<int>> &setStack, std::map<std::string, std
 	else 
 	{
 		if (setStack.size() < 2)
-			throw readySetBool::InvalidInputException();
+			throw readySetBoole::InvalidInputException();
 		tmp1 = setStack.top();
 		setStack.pop();
 		tmp2 = setStack.top();
@@ -172,7 +172,7 @@ void	set_logic(std::stack<std::vector<int>> &setStack, std::map<std::string, std
 	}
 }
 
-std::vector<int> readySetBool::eval_set(std::string &formula, std::vector<std::vector<int>> sets)
+std::vector<int> readySetBoole::eval_set(std::string &formula, std::vector<std::vector<int>> sets)
 {
 	std::vector<int> globalSet;
 	std::map<std::string, std::vector<int>(*)(std::vector<int>, std::vector<int>, std::vector<int>)> setOperationMap;
@@ -182,7 +182,7 @@ std::vector<int> readySetBool::eval_set(std::string &formula, std::vector<std::v
 
 	setOperationMap = initializeSetOperationMap();
 	create_global_set(sets,globalSet);
-	readySetBool::countPropositions(formula, setPropositions);
+	readySetBoole::countPropositions(formula, setPropositions);
 
 	for (std::string::iterator it = formula.begin(); it != formula.end(); it++)
 	{
@@ -199,6 +199,6 @@ std::vector<int> readySetBool::eval_set(std::string &formula, std::vector<std::v
 	}
 	//print_truth_table(formula);
 	if (setStack.size() != 1)
-		throw readySetBool::InvalidInputException();
+		throw readySetBoole::InvalidInputException();
 	return(setStack.top());
 }

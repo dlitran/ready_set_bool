@@ -1,6 +1,6 @@
 #include "../inc/readySetBoole.hpp"
 
-double readySetBool::map(uint16_t x, uint16_t y)
+double readySetBoole::map(uint16_t x, uint16_t y)
 {
 	long int result;
 	int i;
@@ -35,7 +35,7 @@ double readySetBool::map(uint16_t x, uint16_t y)
 	return(value);
 }
 
-std::pair<uint16_t, uint16_t> readySetBool::reverse_map(double z)
+std::pair<uint16_t, uint16_t> readySetBoole::reverse_map(double z)
 {
 	int			i;
 	uint16_t	x;

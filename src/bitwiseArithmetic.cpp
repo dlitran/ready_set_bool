@@ -1,6 +1,6 @@
 #include "../inc/readySetBoole.hpp"
 
-unsigned int readySetBool::adder(unsigned int a, unsigned int b)
+unsigned int readySetBoole::adder(unsigned int a, unsigned int b)
 {
 	int i;
 	int remainder;
@@ -31,7 +31,7 @@ unsigned int readySetBool::adder(unsigned int a, unsigned int b)
 	return (result);
 }
 
-unsigned int readySetBool::multiplier(unsigned int a, unsigned int b)
+unsigned int readySetBoole::multiplier(unsigned int a, unsigned int b)
 {
 	unsigned int num;
 	unsigned int tmp;
@@ -59,7 +59,7 @@ Less error-prone
 Reduce switching operation
 Formed by recursive reflexion.
 */
-unsigned int readySetBool::gray_code(unsigned int n)
+unsigned int readySetBoole::gray_code(unsigned int n)
 {
 	int	i;
 	unsigned int comparison;

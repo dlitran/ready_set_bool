@@ -1,6 +1,6 @@
 #include "../inc/readySetBoole.hpp"
 
-int	readySetBool::countPropositions(std::string formula, std::vector<char> &setPropositions)
+int	readySetBoole::countPropositions(std::string formula, std::vector<char> &setPropositions)
 {
 	int	numProposition;
 
@@ -28,17 +28,17 @@ std::string	logicOR(std::string	bit1, std::string	bit2)
 
 std::string	logicXOR(std::string	bit1, std::string	bit2)
 {
-	return(readySetBool::negation_formal_norm(bit2 + bit1 + "!&" + bit2 + "!" + bit1 + "&|")); //TODO Lo mismo que el conditional
+	return(readySetBoole::negation_formal_norm(bit2 + bit1 + "!&" + bit2 + "!" + bit1 + "&|")); //TODO Lo mismo que el conditional
 }
 
 std::string	logicConditional(std::string	bit1, std::string	bit2)
 {
-	return(readySetBool::negation_formal_norm(bit2 + "!" + bit1 + "|")); //TODO No sé por que lo vuelvo a mandar a negation_formal_norm
+	return(readySetBoole::negation_formal_norm(bit2 + "!" + bit1 + "|")); //TODO No sé por que lo vuelvo a mandar a negation_formal_norm
 }
 
 std::string	logicBiconditional(std::string	bit1, std::string	bit2)
 {
-	return(readySetBool::negation_formal_norm(bit2 + bit1 + ">" + bit1 + bit2 + ">" + "&"));
+	return(readySetBoole::negation_formal_norm(bit2 + bit1 + ">" + bit1 + bit2 + ">" + "&"));
 }
 
 std::map<std::string, std::string(*)(std::string, std::string)>	initializeNegationFormalNormMap(void)
@@ -59,7 +59,7 @@ void	binary_proposition_operation(std::stack<std::string>	&formulaStack, std::ma
 	std::string	bit2;
 
 	if (formulaStack.size() < 2)
-		throw readySetBool::InvalidInputException();
+		throw readySetBoole::InvalidInputException();
 	bit1 = formulaStack.top();
 	formulaStack.pop();
 	bit2 = formulaStack.top();
@@ -69,7 +69,7 @@ void	binary_proposition_operation(std::stack<std::string>	&formulaStack, std::ma
 
 }
 
-std::string readySetBool::de_morgan_laws(char op, int position, std::string formula, std::map<std::string, std::string(*)(std::string, std::string)> &negationFormalNormMap)
+std::string readySetBoole::de_morgan_laws(char op, int position, std::string formula, std::map<std::string, std::string(*)(std::string, std::string)> &negationFormalNormMap)
 {
 	std::stack<std::string> formulaStack;
 	std::string	tmp1;
@@ -105,7 +105,7 @@ std::string readySetBool::de_morgan_laws(char op, int position, std::string form
 		return (tmp2 + "!" + tmp1 + "!|");
 }
 
-std::string readySetBool::negation_formal_norm(std::string formula)
+std::string readySetBoole::negation_formal_norm(std::string formula)
 {
 	std::stack<std::string> formulaStack;
 	std::string	tmp1;
@@ -147,7 +147,7 @@ std::string readySetBool::negation_formal_norm(std::string formula)
 	return (formulaStack.top());
 }
 
-std::string readySetBool::conjunctive_normal_form(std::string formula)
+std::string readySetBoole::conjunctive_normal_form(std::string formula)
 {
 	int					i;
 	int					j;
@@ -176,7 +176,7 @@ std::string readySetBool::conjunctive_normal_form(std::string formula)
 					*it = '0';
 			}
 		}
-		if (readySetBool::eval_formula(tmpFormula) == false)
+		if (readySetBoole::eval_formula(tmpFormula) == false)
 		{
 			conjunction_count++;
 			for (int it = 0 ; it < numProposition; it++)
@@ -206,7 +206,7 @@ std::string readySetBool::conjunctive_normal_form(std::string formula)
 	return(cnf);
 }
 
-bool readySetBool::sat(std::string formula)
+bool readySetBoole::sat(std::string formula)
 {
 	int	numProposition;
 	int	permutation;
@@ -216,7 +216,7 @@ bool readySetBool::sat(std::string formula)
 	permutation = 0;
 	while (permutation < (1 << numProposition))
 	{
-		if (readySetBool::optimized_eval_formula(formula, numProposition,  indexArray, permutation) == true)
+		if (readySetBoole::optimized_eval_formula(formula, numProposition,  indexArray, permutation) == true)
 			return (true);
 		permutation++;
 	}

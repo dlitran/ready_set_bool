@@ -19,7 +19,7 @@
 
 //TODO change strings for string references.
 
-	namespace readySetBool
+	namespace readySetBoole
 	{
 			unsigned int adder(unsigned int a, unsigned int b);
 			unsigned int multiplier(unsigned int a, unsigned int b);

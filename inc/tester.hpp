@@ -7,7 +7,7 @@
 # include <ctime>
 # include "readySetBoole.hpp"
 
-	//class readySetBool;
+	//class readySetBoole;
 	void	adder_tester(void);
 	void	multiplier_tester(void);
 	void	gray_code_tester(void);

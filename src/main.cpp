@@ -26,7 +26,7 @@ void	randomTest(void)
 {
 	int	indexArray[128];
 	std::string formula = "AB&";
-	int numProposition = readySetBool::countPropositionsIndex(formula, indexArray);
+	int numProposition = readySetBoole::countPropositionsIndex(formula, indexArray);
 	std::cout << substitute_formula(formula, indexArray, numProposition, 2) << std::endl;
 }
 
