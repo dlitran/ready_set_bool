@@ -13,8 +13,8 @@
 	void	gray_code_tester(void);
 	void	eval_formula_tester(void);
 	void	print_truth_table_tester(void);
-	void	negation_formal_norm_tester(void);
-	void	conjunction_formal_norm_tester(void);
+	void	negation_normal_form_tester(void);
+	void	conjunction_normal_form_tester(void);
 	void	sat_tester(void);
 	void	powerset_tester(void);
 	void	eval_set_tester(void);

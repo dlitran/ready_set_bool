@@ -32,7 +32,7 @@
 			int	countPropositions(std::string formula, std::vector<char> &setPropositions);
 			int	countPropositionsIndex(std::string formula, int *indexArray);
 
-			std::string negation_formal_norm(std::string formula);
+			std::string negation_normal_form(std::string formula);
 			std::string de_morgan_laws(char op, int position, std::string formula, std::map<std::string, std::string(*)(std::string, std::string)> &negationFormalNormMap);
 
 			std::string conjunctive_normal_form(std::string formula);

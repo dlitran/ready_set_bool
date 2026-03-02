@@ -28,17 +28,17 @@ std::string	logicOR(std::string	bit1, std::string	bit2)
 
 std::string	logicXOR(std::string	bit1, std::string	bit2)
 {
-	return(readySetBoole::negation_formal_norm(bit2 + bit1 + "!&" + bit2 + "!" + bit1 + "&|")); //TODO Lo mismo que el conditional
+	return(readySetBoole::negation_normal_form(bit2 + bit1 + "!&" + bit2 + "!" + bit1 + "&|")); //TODO Lo mismo que el conditional
 }
 
 std::string	logicConditional(std::string	bit1, std::string	bit2)
 {
-	return(readySetBoole::negation_formal_norm(bit2 + "!" + bit1 + "|")); //TODO No sé por que lo vuelvo a mandar a negation_formal_norm
+	return(readySetBoole::negation_normal_form(bit2 + "!" + bit1 + "|")); //TODO No sé por que lo vuelvo a mandar a negation_normal_form
 }
 
 std::string	logicBiconditional(std::string	bit1, std::string	bit2)
 {
-	return(readySetBoole::negation_formal_norm(bit2 + bit1 + ">" + bit1 + bit2 + ">" + "&"));
+	return(readySetBoole::negation_normal_form(bit2 + bit1 + ">" + bit1 + bit2 + ">" + "&"));
 }
 
 std::map<std::string, std::string(*)(std::string, std::string)>	initializeNegationFormalNormMap(void)
@@ -92,7 +92,7 @@ std::string readySetBoole::de_morgan_laws(char op, int position, std::string for
 				tmp1.erase(tmp1.size() - 1);
 			else //Add negation
 				tmp1 += '!';
-			formulaStack.push(negation_formal_norm(tmp1));
+			formulaStack.push(negation_normal_form(tmp1));
 		}
 	}
 	tmp1 = formulaStack.top();
@@ -105,7 +105,7 @@ std::string readySetBoole::de_morgan_laws(char op, int position, std::string for
 		return (tmp2 + "!" + tmp1 + "!|");
 }
 
-std::string readySetBoole::negation_formal_norm(std::string formula)
+std::string readySetBoole::negation_normal_form(std::string formula)
 {
 	std::stack<std::string> formulaStack;
 	std::string	tmp1;
@@ -141,7 +141,7 @@ std::string readySetBoole::negation_formal_norm(std::string formula)
 			{
 				tmp1 = de_morgan_laws('&', (int)(tmp1.size() - 2), tmp1, negationFormalNormMap);
 			}
-			formulaStack.push(negation_formal_norm(tmp1));
+			formulaStack.push(negation_normal_form(tmp1));
 		}
 	}
 	return (formulaStack.top());

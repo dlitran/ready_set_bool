@@ -1,4 +1,5 @@
 #include "../inc/tester.hpp"
+#include <iomanip>
 
 void	print_binary(unsigned int num)
 {
@@ -130,6 +131,17 @@ void gray_code_tester(void)
 		// std::cout << "Gray code: " << std::endl;
 		print_binary(gray);
 	}
+	std::cout << "Subject tests" << std::endl;
+	std::cout << readySetBoole::gray_code(0) << std::endl;
+	std::cout << readySetBoole::gray_code(1) << std::endl;
+	std::cout << readySetBoole::gray_code(2) << std::endl;
+	std::cout << readySetBoole::gray_code(3) << std::endl;
+	std::cout << readySetBoole::gray_code(4) << std::endl;
+	std::cout << readySetBoole::gray_code(5) << std::endl;
+	std::cout << readySetBoole::gray_code(6) << std::endl;
+	std::cout << readySetBoole::gray_code(7) << std::endl;
+	std::cout << readySetBoole::gray_code(8) << std::endl;
+
 }
 
 void	testFormula(std::string &formula)
@@ -269,21 +281,21 @@ std::vector<bool>	testEquivalence(std::string formula)
 	return (result);
 }
 
-void	testNorm(std::string formula, bool formalNorm)
+void	testForm(std::string formula, bool formalNorm)
 {
 	std::string	norm;
-	std::vector<bool> vectorFormula;
-	std::vector<bool> vectorNorm;
+	std::vector<bool> vectorTruthTable;
+	std::vector<bool> vectorNormTruthTable;
 
 	std::cout << "before: " << formula << std::endl;
-	vectorFormula = testEquivalence(formula);
+	vectorTruthTable = testEquivalence(formula);
 	if (formalNorm == 0)
-		norm = readySetBoole::negation_formal_norm(formula);
+		norm = readySetBoole::negation_normal_form(formula);
 	else
 		norm = readySetBoole::conjunctive_normal_form(formula);
-	vectorNorm = testEquivalence(norm);
+	vectorNormTruthTable = testEquivalence(norm);
 	std::cout << "after: " << norm << std::endl;
-	if (vectorFormula ==  vectorNorm)
+	if (vectorTruthTable ==  vectorNormTruthTable)
 		std::cout << "\033[32mCorrect\033[0m" << std::endl;
 	else
 		std::cout << "\033[31mIncorrect\033[0m" << std::endl;
@@ -295,100 +307,100 @@ void	testNorm(std::string formula, bool formalNorm)
 	// std::cout << std::endl;
 }
 
-void negation_formal_norm_tester(void)
+void negation_normal_form_tester(void)
 {
 	std::string	formula;
 
 	std::cout << "\033[34mNegation Normal Form tester:\033[0m" << std::endl;
 	formula = "AB=!";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "BA|";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB&";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB^";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB=";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB>";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "A!";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB|C&";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "ABC&|";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB|C^";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB&!C|";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB=!C&";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB>C>";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "ABC||";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "ABC&&";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB&!C>!";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB|C^D&";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "ABCD&&|";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB^C=!D|";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB>!C&D=";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "ABCD>>>";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB^C=";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "ABC!&!!|DE!|F=!=!A!&";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB>BC>&AC>>";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB|!A!B!&>A!B!&AB|!>&";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB|C>CD>AD>>&";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB>!AB!&>";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
 	formula = "AB^AC>BC>&C>>";
-	testNorm(formula, 0);
+	testForm(formula, 0);
 
-	// formula = "!";
-	// testNorm(formula, 0);
+	formula = "!";
+	testForm(formula, 0);
 }
 
-void conjunction_formal_norm_tester(void)
+void conjunction_normal_form_tester(void)
 {
 	std::string		formula;
 	std::string		result;
@@ -396,94 +408,94 @@ void conjunction_formal_norm_tester(void)
 	std::cout << "\033[34mConjunctive Normal Form tester:\033[0m" << std::endl;
 
 	formula = "A!B&CA!&AB|=^!";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB=!";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "BA|";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB&";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB^";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB=";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB>";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "A!";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB|C&";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "ABC&|";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB|C^";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB&!C|";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB=!C&";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB>C>";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "ABC||";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "ABC&&";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB&!C>!";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB|C^D&";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "ABCD&&|";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB^C=!D|";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB>!C&D=";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "ABCD>>>";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB^C=";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "ABC!&!!|DE!|F=!=!A!&";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB>BC>&AC>>";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB|!A!B!&>A!B!&AB|!>&";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB|C>CD>AD>>&";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB>!AB!&>";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	formula = "AB^AC>BC>&C>>";
-	testNorm(formula, 1);
+	testForm(formula, 1);
 
 	// formula = "!";
-	// testNorm(formula, 1);
+	// testForm(formula, 1);
 	
 }
 
@@ -507,6 +519,34 @@ void sat_tester(void)
 		std::cout << "\033[31mnot satisfiable\033[0m" << std::endl;
 
 	formula = "ABC&|DE!|F=!=!!";
+	std::cout << formula << ": ";
+	if (readySetBoole::sat(formula) == true)
+		std::cout << "\033[32msatisfiable\033[0m" << std::endl;
+	else
+		std::cout << "\033[31mnot satisfiable\033[0m" << std::endl;
+
+	formula = "AB|";
+	std::cout << formula << ": ";
+	if (readySetBoole::sat(formula) == true)
+		std::cout << "\033[32msatisfiable\033[0m" << std::endl;
+	else
+		std::cout << "\033[31mnot satisfiable\033[0m" << std::endl;
+
+	formula = "AB&";
+	std::cout << formula << ": ";
+	if (readySetBoole::sat(formula) == true)
+		std::cout << "\033[32msatisfiable\033[0m" << std::endl;
+	else
+		std::cout << "\033[31mnot satisfiable\033[0m" << std::endl;
+
+	formula = "AA!&";
+	std::cout << formula << ": ";
+	if (readySetBoole::sat(formula) == true)
+		std::cout << "\033[32msatisfiable\033[0m" << std::endl;
+	else
+		std::cout << "\033[31mnot satisfiable\033[0m" << std::endl;
+
+	formula = "AA^";
 	std::cout << formula << ": ";
 	if (readySetBoole::sat(formula) == true)
 		std::cout << "\033[32msatisfiable\033[0m" << std::endl;
@@ -569,40 +609,65 @@ void	eval_set_tester(void)
 	}
 
 	formula = "AB&";
-	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
 	print_result_set(formula, sets);
 
 	formula = "AB|";
-	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
 	print_result_set(formula, sets);
 
 	formula = "A!B|";
-	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
 	print_result_set(formula, sets);
 
 	formula = "AB=";
-	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
 	print_result_set(formula, sets);
 
 	formula = "AB^";
-	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
 	print_result_set(formula, sets);
 
-	formula = "AB&&";
-	sets = {{1, 3, 4, 18}, {1, 2, 3, 4, 5}, {3, 6, 9, 12, 15, 18}};
+	formula = "ABC&&";
 	print_result_set(formula, sets);
 	
 }
 
 void	spaceFillingCurve_tester(void)
 {
+	std::cout << "\033[34mSpace filling curve tester:\033[0m" << std::endl;
 	double a;
 	std::pair<uint16_t, uint16_t> reverse_a;
+	std::cout << "\033[33ma: " << (std::numeric_limits<uint16_t>::max() - 1) << " b: " << std::numeric_limits<uint16_t>::max() << "\033[0m" << std::endl;
 	a = readySetBoole::map(std::numeric_limits<uint16_t>::max() - 1, std::numeric_limits<uint16_t>::max());
-	// std::cout << std::fixed << std::setprecision(20) << (double)a << std::endl;
-	std::cout << std::fixed << (double)a << std::endl;
+	std::cout << "result: " << std::fixed << std::setprecision(10) << (double)a << std::endl;
 	reverse_a = readySetBoole::reverse_map(a);
-	std::cout << "first: " << reverse_a.first << std::endl;
-	std::cout << "second: " << reverse_a.second << std::endl;
-	std::cout << std::numeric_limits<uint16_t>::max() << std::endl;
+	std::cout << "x binary: " << std::bitset<16>(reverse_a.first) << std::endl;
+	std::cout << "y binary: " << std::bitset<16>(reverse_a.second ) << std::endl;
+	std::cout << "x: " << reverse_a.first << std::endl;
+	std::cout << "y: " << reverse_a.second << std::endl;
+	// std::cout << std::numeric_limits<uint16_t>::max() << std::endl;
+
+
+	std::cout << "\033[33ma: " << 4242 << " b: " << 42 << "\033[0m" << std::endl;
+	a = readySetBoole::map(4242, 42);
+	std::cout << "result: " << std::fixed << std::setprecision(10) << (double)a << std::endl;
+	reverse_a = readySetBoole::reverse_map(a);
+	std::cout << "x binary: " << std::bitset<16>(reverse_a.first) << std::endl;
+	std::cout << "y binary: " << std::bitset<16>(reverse_a.second ) << std::endl;
+	std::cout << "x: " << reverse_a.first << std::endl;
+	std::cout << "y: " << reverse_a.second << std::endl;
+
+	std::cout << "\033[33ma: " << 4242 << " b: " << 42 << "\033[0m" << std::endl;
+	a = readySetBoole::map(42424, 42424);
+	std::cout << "result: " << std::fixed << std::setprecision(10) << (double)a << std::endl;
+	reverse_a = readySetBoole::reverse_map(a);
+	std::cout << "x binary: " << std::bitset<16>(reverse_a.first) << std::endl;
+	std::cout << "y binary: " << std::bitset<16>(reverse_a.second ) << std::endl;
+	std::cout << "x: " << reverse_a.first << std::endl;
+	std::cout << "y: " << reverse_a.second << std::endl;
+
+	std::cout << "\033[33ma: " << 0 << " b: " << 0 << "\033[0m" << std::endl;
+	a = readySetBoole::map(0, 0);
+	std::cout << "result: " << std::fixed << std::setprecision(10) << (double)a << std::endl;
+	reverse_a = readySetBoole::reverse_map(a);
+	std::cout << "x binary: " << std::bitset<16>(reverse_a.first) << std::endl;
+	std::cout << "y binary: " << std::bitset<16>(reverse_a.second ) << std::endl;
+	std::cout << "x: " << reverse_a.first << std::endl;
+	std::cout << "y: " << reverse_a.second << std::endl;
 }

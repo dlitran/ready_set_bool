@@ -61,28 +61,5 @@ Formed by recursive reflexion.
 */
 unsigned int readySetBoole::gray_code(unsigned int n)
 {
-	int	i;
-	unsigned int comparison;
-	unsigned int	gray;
-
-	comparison = n >> 1;
-	gray = 0;
-	i = 31;
-	while (i >= 0)
-	{
-		if ((n & (1 << i)) != 0)
-			break ;
-		i--;
-	}
-	gray = n & (1 << i);
-	if (i > 0)
-		i--;
-	while (i >= 0)
-	{
-		//std::cout << "n: " << (n & (1 << i)) << std::endl;
-		//std::cout << "comparison: " << (comparison & (1 << i)) << std::endl;
-		gray = gray | ((n & (1 << i)) ^ (comparison & (1 << i)));
-		i--;
-	}
-	return (gray);
+	return (n ^ (n >> 1));
 }
