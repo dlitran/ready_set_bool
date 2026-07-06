@@ -1,7 +1,5 @@
 # Ready Set Boole
 
-![42 Network](https://img.shields.io/badge/42-Project-000000)
-
 ## 📌 About The Project
 `ready_set_boole` is a 42 school project designed to introduce the foundational concepts of computer-related mathematics. It focuses on Boolean Algebra, Set Theory, Logic, and Space-Filling Curves. 
 
