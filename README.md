@@ -34,7 +34,7 @@ The project is structured sequentially, building upon previous logic:
    ```
 3. Run the executable for a specific exercise to view the test cases:
    ```bash
-   ./[executable_name]
+   ./readySetBoole
    ```
 
 ## 📚 Concepts Learned
